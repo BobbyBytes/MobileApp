@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "379839539048",
+    "firebase_url": "https://mobiletalentapp.firebaseio.com",
+    "project_id": "mobiletalentapp",
+    "storage_bucket": "mobiletalentapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379839539048:android:4f71930e7f850339e418dd",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "379839539048-rk0s6bq89db09p3p3cv6333ar9fvuh85.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbnBRe3rQAbBXQwJGAF02Ol-_sLpDZKe0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379839539048-rk0s6bq89db09p3p3cv6333ar9fvuh85.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

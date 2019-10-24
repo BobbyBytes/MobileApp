@@ -10,11 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainContent"></activity>
-        <activity android:name=".data.UserScrollView" />
-        <activity
-            android:name=".ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".data.ScrollingMultipleItems" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login">

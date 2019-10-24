@@ -23,12 +23,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myapplication.MainContent;
 import com.example.myapplication.R;
-import com.example.myapplication.ScrollingActivity;
-import com.example.myapplication.data.UserScrollView;
-import com.example.myapplication.ui.login.LoginViewModel;
-import com.example.myapplication.ui.login.LoginViewModelFactory;
+import com.example.myapplication.data.ScrollingMultipleItems;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -127,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
         String welcome = "HI" + model.getDisplayName();
         // TODO : initiate successful logged in experience
         //Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this, UserScrollView.class);
+        Intent intent = new Intent(this, ScrollingMultipleItems.class);
         startActivity(intent);
     }
 
