@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -32,6 +33,16 @@ public class ScrollingMultipleItems extends AppCompatActivity {
 
         UserData User1 = new UserData("Tony", "Balogna", "BigTB");
         db.collection("users").document("User1").set(User1);
+
+        DocumentReference docRef = db.collection("users").document("User1");
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                UserData mydata = documentSnapshot.toObject(UserData.class);
+            }
+
+
+        });
 
     }
 
