@@ -21,7 +21,18 @@ public class UserData {
         return LastName;
     }
 
-    public String getNickname() {
-        return Nickname;
+    public String getNickname() { return Nickname;}
+
+    public void setfirstName(String firstName){
+        FirstName = firstName;
     }
+    public void setLastName(String lastName){
+        LastName = lastName;
+    }
+
+    public void setnickname(String nickname){
+        Nickname = nickname;
+    }
+
+
 }
