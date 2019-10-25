@@ -28,6 +28,8 @@ public class MainContent extends AppCompatActivity {
         U1 = new UserData("Firstie","LAstie","NickName");
         mUserData.add(U1);
 
+        U1 = new UserData("FirstName","LastName","NickName");
+        mUserData.add(U1);
         RecyclerView userListView = (RecyclerView)findViewById(R.id.userListView);
 
 

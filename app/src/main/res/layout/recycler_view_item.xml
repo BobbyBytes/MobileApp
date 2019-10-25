@@ -4,7 +4,8 @@
               android:orientation="horizontal"
               android:padding="8dp"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content"
+              android:background="@drawable/border">
   <ImageView
       android:id="@+id/MyProfilePic"
       android:layout_width="70dp"
@@ -22,16 +23,19 @@
         android:id="@+id/myTextView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="dfdfdf"/>
+        android:text="vdsfsdfsffdfsdf"
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="@tools:sample/lorem[4]" />
+        tools:text=""
+        android:textColor="@color/cardview_light_background"/>
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="@tools:sample/lorem[2]" />
+        tools:text=""
+        android:textColor="@color/cardview_light_background"/>
   </LinearLayout>
 </LinearLayout>

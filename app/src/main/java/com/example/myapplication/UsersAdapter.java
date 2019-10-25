@@ -24,7 +24,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        public TextView nameTextView;
+        public TextView firstNameTextView;
+        public TextView lastNameTextView;
+        public TextView nickNameTextView;
         public Button messageButton;
 
         // We also create a constructor that accepts the entire item row
@@ -34,7 +36,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             // to access the context from any ViewHolder instance.
             super(itemView);
 
-            nameTextView = (TextView) itemView.findViewById(R.id.myTextView1);
+            firstNameTextView = (TextView) itemView.findViewById(R.id.myTextView1);
+            lastNameTextView = (TextView) itemView.findViewById((R.id.textView2));
+            nickNameTextView = (TextView) itemView.findViewById(R.id.textView3);
         }
     }
 
@@ -66,8 +70,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         UserData myUser = mUserData.get(position);
 
         // Set item views based on your views and data model
-        TextView textView = viewHolder.nameTextView;
-        textView.setText(myUser.getFirstName());
+        TextView firstNameTextView = viewHolder.firstNameTextView;
+        TextView lastNameTextView = viewHolder.lastNameTextView;
+        TextView nickNameTextView = viewHolder.nickNameTextView;
+
+        firstNameTextView.setText(myUser.getFirstName());
+        lastNameTextView.setText((myUser.getLastName()));
+        nickNameTextView.setText((myUser.getNickname()));
     }
 
     // Returns the total count of items in the list
