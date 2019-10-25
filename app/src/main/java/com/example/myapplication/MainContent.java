@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -80,10 +83,24 @@ public class MainContent extends AppCompatActivity {
         U1 = new UserData("FirstName","LastName","NickName");
         mUserData.add(U1);
 
+        U1 = new UserData("Max","Rider","Singer");
+        AddToList(U1);
+
 
     }
     private void AddToList(UserData UD){
         mUserData.add(UD);
+    }
+
+
+    //ImageView img = (ImageView) findViewById(R.id.MyProfilePic);
+    //img.OnClickListener();
+    public void viewProfile(View view)
+    {
+        //goto user profile
+        Intent gotoUser = new Intent();
+        gotoUser.setClass(this, userProfile.class);
+        startActivity(gotoUser);
     }
 }
 
