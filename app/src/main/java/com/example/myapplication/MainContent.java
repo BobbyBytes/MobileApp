@@ -26,16 +26,17 @@ import java.util.List;
 public class MainContent extends AppCompatActivity {
     List <UserData> mUserData = new ArrayList<>();
     List<UserData> DBUserData = new ArrayList<>();
-
+    // Create adapter passing in the user data
+    final UsersAdapter adapter = new UsersAdapter(mUserData);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_scroll_view);
-
-
+        //Create connection to DB
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        UserData User1 = new UserData("Tony", "Balogna", "BigTB");
+        //Create and write Write a user test
+        UserData User1 = new UserData("Test User", "From Class", "App Created User");
         db.collection("users").document("User1").set(User1);
 
         DocumentReference docRef = db.collection("users").document("User1");
@@ -45,13 +46,13 @@ public class MainContent extends AppCompatActivity {
                 UserData mydata = documentSnapshot.toObject(UserData.class);
             }
         });
+
+        // Lookup the recycler view in activity layout
         RecyclerView userListView = (RecyclerView)findViewById(R.id.userListView);
-        // Lookup the recyclerview in activity layout
-        // Create adapter passing in the sample user data
-        final UsersAdapter adapter = new UsersAdapter(mUserData);
-        // Attach the adapter to the recyclerview to populate items
+
         // Set layout manager to position the items
         userListView.setLayoutManager(new LinearLayoutManager(this));
+        // Attach the adapter to the recyclerview to populate items
         userListView.setAdapter(adapter);
 
         db.collection("users")
@@ -62,8 +63,8 @@ public class MainContent extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("TAG", document.getId() + " => " + document.getData());
-                                UserData ME = document.toObject(UserData.class);
-                                mUserData.add(ME);
+                                UserData Doc_From_DB = document.toObject(UserData.class);
+                                mUserData.add(Doc_From_DB);
                                 adapter.notifyDataSetChanged();
                             }
                         } else {
@@ -71,16 +72,14 @@ public class MainContent extends AppCompatActivity {
                         }
                     }
                 });
-        // Lookup the recyclerview in activity layout
         // Initialize ListOfUsers
-        UserData U1 = new UserData("Hey","Joe","It's ME");
+        UserData U1 = new UserData("Trey","Anastasio","Big Red");
         mUserData.add(U1);
 
-        Log.d("fgfg", "onCreate:" + mUserData.size());
-        U1 = new UserData("Firstie","LAstie","NickName");
+        U1 = new UserData("Keith","Moon","Drummer");
         mUserData.add(U1);
 
-        U1 = new UserData("FirstName","LastName","NickName");
+        U1 = new UserData("Neil","Armstrong","Mr. Moon");
         mUserData.add(U1);
 
         U1 = new UserData("Max","Rider","Singer");
@@ -90,6 +89,8 @@ public class MainContent extends AppCompatActivity {
     }
     private void AddToList(UserData UD){
         mUserData.add(UD);
+        adapter.notifyDataSetChanged();
+
     }
 
 
@@ -99,7 +100,7 @@ public class MainContent extends AppCompatActivity {
     {
         //goto user profile
         Intent gotoUser = new Intent();
-        gotoUser.setClass(this, userProfile.class);
+        //gotoUser.setClass(this, userProfile.class);
         startActivity(gotoUser);
     }
 }
