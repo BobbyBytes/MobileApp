@@ -30,12 +30,15 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="66dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/ic_arrow_v4"
                 android:onClick="goBack"
-                android:text="go back"
+                android:src="@drawable/ic_arrow_v4"
                 android:textSize="24sp" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
