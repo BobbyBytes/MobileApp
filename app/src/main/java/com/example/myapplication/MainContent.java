@@ -94,8 +94,6 @@ public class MainContent extends AppCompatActivity {
     }
 
 
-    //ImageView img = (ImageView) findViewById(R.id.MyProfilePic);
-    //img.OnClickListener();
     public void viewProfile(View view)
     {
         //goto user profile
