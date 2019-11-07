@@ -20,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.File;
 
@@ -37,6 +38,9 @@ public class userProfile extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent caller = getIntent();
+        String firstName =  caller.getStringExtra("idFirstName");
+        TextView FirstNameTextView = findViewById(R.id.textViewFirstName);
+        FirstNameTextView.setText(firstName);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

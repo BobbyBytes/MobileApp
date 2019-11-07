@@ -22,7 +22,7 @@
             android:stepSize="1" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/textViewFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="FirstName"

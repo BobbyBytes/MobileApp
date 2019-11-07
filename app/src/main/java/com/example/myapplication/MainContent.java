@@ -165,6 +165,7 @@ public class MainContent extends AppCompatActivity {
                 new RecyclerItemClickListener(context, userListView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         UserData mUser = mUserData.get(position);
+                        CreateAndViewUserProfile(view, mUser);
 
 
                         ;                    }
