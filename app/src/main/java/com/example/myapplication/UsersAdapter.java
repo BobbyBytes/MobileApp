@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,11 @@ import java.util.List;
 // Note that we specify the custom ViewHolder which gives us access to our views
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
 
+    Context context;
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
+
+
 
     //Viewholder Definition
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -45,6 +49,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     // Store a member variable for the contacts
     private List<UserData> mUserData;
+
     // Pass in the contact array into the constructor
     public UsersAdapter(List<UserData> userdata) {
         mUserData = userdata;
@@ -57,7 +62,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
             // Inflate the custom layout
             View UserView = inflater.inflate(R.layout.recycler_view_item, parent, false);
-
             // Return a new holder instance
             ViewHolder viewHolder = new ViewHolder(UserView);
             return viewHolder;
@@ -67,7 +71,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         // Get the data model based on position
-        UserData myUser = mUserData.get(position);
+        final UserData myUser = mUserData.get(position);
 
         // Set item views based on your views and data model
         TextView firstNameTextView = viewHolder.firstNameTextView;
@@ -78,6 +82,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         lastNameTextView.setText((myUser.getLastName()));
         nickNameTextView.setText((myUser.getNickname()));
     }
+
+            //we can then create an intent here and start a new activity
+            //with our data
+
 
     // Returns the total count of items in the list
     @Override
