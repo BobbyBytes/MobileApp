@@ -165,7 +165,8 @@ public class MainContent extends AppCompatActivity {
                 new RecyclerItemClickListener(context, userListView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         UserData mUser = mUserData.get(position);
-                        Toast.makeText(getApplicationContext() ,mUser.getFirstName(), Toast.LENGTH_LONG).show();
+
+
                         ;                    }
 
                     @Override public void onLongItemClick(View view, int position) {
@@ -179,13 +180,20 @@ public class MainContent extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
     }
-    public void viewProfile(View view)
+    public void CreateAndViewUserProfile(View view, UserData userData)
     {
         //goto user profile
+        String firstName = userData.getFirstName();
+        String lastName = userData.getLastName();
+        String nickName = userData.getNickname();
 
-        Intent gotoUser = new Intent();
-        gotoUser.setClass(this, userProfile.class);
-        startActivity(gotoUser);
+        Intent gotoUserIntent = new Intent();
+        gotoUserIntent.putExtra("idFirstName",firstName);
+        gotoUserIntent.putExtra("idLastName",lastName);
+        gotoUserIntent.putExtra("idNickName", nickName);
+
+        gotoUserIntent.setClass(this, userProfile.class);
+        startActivity(gotoUserIntent);
     }
 }
 
