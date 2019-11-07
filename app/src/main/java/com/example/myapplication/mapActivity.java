@@ -30,4 +30,12 @@ public class mapActivity extends AppCompatActivity {
         });
     }
 
+    public void goBack(View view)
+    {
+        //goto main scroll view
+        Intent gotoMain = new Intent();
+        gotoMain.setClass(this, MainContent.class);
+        startActivity(gotoMain);
+    }
+
 }

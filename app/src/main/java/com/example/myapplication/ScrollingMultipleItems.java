@@ -53,28 +53,5 @@ public class ScrollingMultipleItems extends AppCompatActivity {
 
     }
 
-    public void goToMapScreen(View view)
-    {
-        Intent goToMap = new Intent();
-        goToMap.setClass(this, mapActivity.class);
-        startActivity(goToMap);
-    }
-
-    public void viewProfile(View view)
-    {
-        //goto user profile
-        Intent goToUser = new Intent();
-        goToUser.setClass(this, userProfile.class);
-        startActivity(goToUser);
-    }
-
-    public void viewInbox(View view)
-    {
-        Intent gotoInbox = new Intent();
-        gotoInbox.setClass(this, messengerActivity.class);
-        startActivity(gotoInbox);
-    }
-
-
 }
 

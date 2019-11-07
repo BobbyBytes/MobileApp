@@ -8,4 +8,16 @@
     tools:context=".mapActivity"
     tools:showIn="@layout/activity_map">
 
+    <ImageButton
+        android:id="@+id/back_button3"
+        android:layout_width="66dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_arrow_v4"
+        android:onClick="goBack"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_arrow_v4" />
 </androidx.constraintlayout.widget.ConstraintLayout>
