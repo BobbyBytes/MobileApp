@@ -37,10 +37,14 @@ public class userProfile extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Grab the name string from the calling intent
         Intent caller = getIntent();
         String firstName =  caller.getStringExtra("idFirstName");
         TextView FirstNameTextView = findViewById(R.id.textViewFirstName);
         FirstNameTextView.setText(firstName);
+        String lastName = caller.getStringExtra("idLastName");
+        TextView LastNameTextView = findViewById(R.id.textViewLastName);
+        LastNameTextView.setText(lastName);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +63,10 @@ public class userProfile extends AppCompatActivity {
             }
         });
     }
+    //End OnCreate
 
+
+    //After choosing a picture
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -74,12 +81,10 @@ public class userProfile extends AppCompatActivity {
             // Create a storage reference from our app
             StorageReference storageRef = FirebaseStorage.getInstance().getReference();
 
-
-
             StorageReference imageRef = storageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
             UploadTask uploadTask = imageRef.putFile(mImageUri);
 
-// Register observers to listen for when the download is done or if it fails
+            // Register observers to listen for when the download is done or if it fails
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
@@ -89,7 +94,7 @@ public class userProfile extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     taskSnapshot.getMetadata();
-                    // ...
+                    // ... MAybe get some data here?
                 }
             });
 
