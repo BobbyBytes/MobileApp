@@ -19,7 +19,7 @@
             android:label="@string/title_activity_user_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainContent" />
-        <activity android:name=".data.ScrollingMultipleItems" />
+        <activity android:name=".ScrollingMultipleItems" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login">

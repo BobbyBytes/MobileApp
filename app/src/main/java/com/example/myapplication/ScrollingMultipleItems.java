@@ -1,10 +1,11 @@
-package com.example.myapplication.data;
+package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.UserData;
@@ -22,6 +23,18 @@ public class ScrollingMultipleItems extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_scroll_view);
+
+        ImageView iv  = findViewById(R.id.mapButton);
+
+        View.OnClickListener on = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToMap = new Intent();
+                goToMap.setClass(getApplicationContext(), mapActivity.class);
+                startActivity(goToMap);
+            }
+        };
+        iv.setOnClickListener(on);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 

@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.example.myapplication.MainContent;
 import com.example.myapplication.R;
-import com.example.myapplication.data.ScrollingMultipleItems;
 
 public class LoginActivity extends AppCompatActivity {
 

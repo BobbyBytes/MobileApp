@@ -101,5 +101,19 @@ public class MainContent extends AppCompatActivity {
         gotoUser.setClass(this, userProfile.class);
         startActivity(gotoUser);
     }
+
+    public void goToMapScreen(View view)
+    {
+        Intent goToMap = new Intent();
+        goToMap.setClass(this, mapActivity.class);
+        startActivity(goToMap);
+    }
+
+    public void viewInbox(View view)
+    {
+        Intent gotoInbox = new Intent();
+        gotoInbox.setClass(this, messengerActivity.class);
+        startActivity(gotoInbox);
+    }
 }
 
