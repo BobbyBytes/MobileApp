@@ -98,7 +98,7 @@ public class MainContent extends AppCompatActivity {
     {
         //goto user profile
         Intent gotoUser = new Intent();
-        //gotoUser.setClass(this, userProfile.class);
+        gotoUser.setClass(this, userProfile.class);
         startActivity(gotoUser);
     }
 }
