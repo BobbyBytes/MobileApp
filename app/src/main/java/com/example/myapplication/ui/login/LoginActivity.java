@@ -152,6 +152,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = "HI" + model.getDisplayName();
         // TODO : initiate successful logged in experience
