@@ -43,6 +43,7 @@
 
             <ImageView
                 android:id="@+id/profile_pic"
+                android:scaleType="fitXY"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_empty_profile_pic_v4" />

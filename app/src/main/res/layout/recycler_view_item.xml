@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/border"
-    android:onClick="viewProfile"
     android:orientation="horizontal"
     android:padding="8dp">
 
@@ -13,14 +12,12 @@
       android:layout_width="70dp"
       android:layout_height="70dp"
       android:contentDescription="Profile Pic"
-      android:onClick="viewProfile"
       tools:src="@tools:sample/avatars" />
 
   <LinearLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
-      android:onClick="viewProfile"
       android:orientation="vertical"
       android:padding="5dp">
 
@@ -28,7 +25,6 @@
         android:id="@+id/myTextView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="viewProfile"
         android:text="vdsfsdfsffdfsdf"
         android:textColor="@color/cardview_light_background" />
 
