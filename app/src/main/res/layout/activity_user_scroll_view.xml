@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".data.ScrollingMultipleItems">
+    tools:context=".ScrollingMultipleItems">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userListView"
@@ -14,5 +14,52 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="20"
-        tools:listitem="@layout/recycler_view_item" />
+        tools:listitem="@layout/recycler_view_item">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_menu_buttons" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/mapButton"
+            android:layout_width="360px"
+            android:layout_height="230px"
+            android:contentDescription="TODO"
+            android:onClick="goToMapScreen"
+            app:srcCompat="@drawable/ic_menu_buttons_2" />
+
+        <ImageButton
+            android:id="@+id/inboxButton"
+            android:layout_width="360px"
+            android:layout_height="230px"
+            android:layout_weight="1"
+            android:onClick="viewInbox"
+            app:srcCompat="@drawable/ic_menu_buttons_3" />
+
+        <ImageButton
+            android:id="@+id/myProfileButton"
+            android:layout_width="360px"
+            android:layout_height="230px"
+            android:layout_weight="1"
+            android:onClick="viewProfile"
+            app:srcCompat="@drawable/ic_menu_buttons_4" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
