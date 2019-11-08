@@ -121,6 +121,8 @@ public class MainContent extends AppCompatActivity {
 
     public void CreateAndViewUserProfile(View view, UserData userData) {
         //goto user profile
+
+
         String firstName = userData.getFirstName();
         String lastName = userData.getLastName();
         String nickName = userData.getNickname();
@@ -132,6 +134,21 @@ public class MainContent extends AppCompatActivity {
 
         gotoUserIntent.setClass(this, userProfile.class);
         startActivity(gotoUserIntent);
+
+    }
+
+    public void goToMapScreen(View view)
+    {
+        Intent goToMap = new Intent();
+        goToMap.setClass(this, mapActivity.class);
+        startActivity(goToMap);
+    }
+
+    public void viewInbox(View view)
+    {
+        Intent gotoInbox = new Intent();
+        gotoInbox.setClass(this, messengerActivity.class);
+        startActivity(gotoInbox);
     }
 }
 

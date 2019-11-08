@@ -181,8 +181,11 @@ public class userProfile extends AppCompatActivity {
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    public void goBack(View view) {
-        //goto user profile
+
+    public void goBack(View view)
+    {
+        //goto main scroll page
+
         Intent gotoMain = new Intent();
         gotoMain.setClass(this, MainContent.class);
         startActivity(gotoMain);
