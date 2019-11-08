@@ -1,21 +1,26 @@
-package com.example.myapplication;
+package com.example.myapplication.data;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
+import android.util.Log;
 
 import com.example.myapplication.R;
 import com.example.myapplication.UserData;
-import com.example.myapplication.mapActivity;
-import com.example.myapplication.messengerActivity;
-import com.example.myapplication.userProfile;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.io.Console;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScrollingMultipleItems extends AppCompatActivity {
 
@@ -23,18 +28,6 @@ public class ScrollingMultipleItems extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_scroll_view);
-
-        ImageView iv  = findViewById(R.id.mapButton);
-
-        View.OnClickListener on = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent goToMap = new Intent();
-                goToMap.setClass(getApplicationContext(), mapActivity.class);
-                startActivity(goToMap);
-            }
-        };
-        iv.setOnClickListener(on);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -52,6 +45,7 @@ public class ScrollingMultipleItems extends AppCompatActivity {
         });
 
     }
+
 
 }
 

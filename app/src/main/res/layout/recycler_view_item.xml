@@ -42,5 +42,4 @@
         android:textColor="@color/cardview_light_background"
         tools:text="" />
   </LinearLayout>
-
 </LinearLayout>

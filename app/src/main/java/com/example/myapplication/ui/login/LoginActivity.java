@@ -36,11 +36,9 @@ import android.widget.Toast;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.MainContent;
 import com.example.myapplication.R;
-
 import com.example.myapplication.data.ScrollingMultipleItems;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-
 
 public class LoginActivity extends AppCompatActivity {
 

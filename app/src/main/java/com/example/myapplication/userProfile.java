@@ -116,7 +116,7 @@ public class userProfile extends AppCompatActivity {
 
     public void goBack(View view)
     {
-        //goto main scroll page
+        //goto user profile
         Intent gotoMain = new Intent();
         gotoMain.setClass(this, MainContent.class);
         startActivity(gotoMain);
