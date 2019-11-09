@@ -58,11 +58,12 @@
             android:text="Demo Reel"
             android:textSize="18sp" />
 
-        <VideoView
-            android:id="@+id/demoReel"
-            android:layout_width="match_parent"
-            android:layout_height="278dp"
-            android:layout_weight="1" />
+        <fragment
+            android:id="@+id/youtubeFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.youtube.player.YouTubePlayerFragment">
+        </fragment>
 
         <Button
             android:id="@+id/playButton"
