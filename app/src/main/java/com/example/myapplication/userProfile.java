@@ -4,6 +4,8 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -40,7 +42,9 @@ import static com.google.common.io.Files.getFileExtension;
 public class userProfile extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth mAuth;
-
+    ImageView mImage;
+    Bitmap bitmap;
+    File localFile = null;
     private Uri mImageUri;
     private StorageReference mStorageRef;
     @Override
@@ -50,7 +54,7 @@ public class userProfile extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        mAuth.createUserWithEmailAndPassword("fakeUser@MyFakeUser7.com", "password")
+        mAuth.createUserWithEmailAndPassword("fakeUser@MyFakeUser9.com", "password")
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -73,7 +77,7 @@ public class userProfile extends AppCompatActivity {
         FirebaseUser User = mAuth.getCurrentUser();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference riversRef = mStorageRef.child("Neil_Armstrong.jpg");
-        File localFile = null;
+
         try {
             localFile = File.createTempFile("images", "jpg");
         } catch (IOException e) {
@@ -85,6 +89,10 @@ public class userProfile extends AppCompatActivity {
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         // Successfully downloaded data to local file
                         // ...
+                        String filePath = localFile.getAbsolutePath();
+                        bitmap = BitmapFactory.decodeFile(filePath);
+                        mImage.setImageBitmap(bitmap);
+                        Log.d("MyTAg", "Holy shit it works");
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -98,6 +106,14 @@ public class userProfile extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mImage = findViewById(R.id.profile_pic);
+        mImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
+        });
 
         //Grab the name string from the calling intent
         Intent caller = getIntent();
@@ -117,16 +133,10 @@ public class userProfile extends AppCompatActivity {
             }
         });
 
-        ImageView mImage = findViewById(R.id.profile_pic);
-        mImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileChooser();
-            }
-        });
-        String filePath = localFile.getAbsolutePath();
-        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-        mImage.setImageBitmap(bitmap);
+
+
+
+
 
 
     }
