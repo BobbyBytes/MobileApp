@@ -54,21 +54,7 @@ public class userProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        YouTubePlayerFragment youtubeFragment = (YouTubePlayerFragment)
-                getFragmentManager().findFragmentById(R.id.youtubeFragment);
-        youtubeFragment.initialize("AIzaSyBBYu_iE7KoEVExaB59aUxJ-0fcK5S7CnQ", new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider,
-                                                YouTubePlayer youTubePlayer, boolean b) {
-                // do any work here to cue video, play video, etc.
-                youTubePlayer.cueVideo("5xVh-7ywKpE");
-            }
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider,
-                                                YouTubeInitializationResult youTubeInitializationResult) {
-
-            }
-        });
+        
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
