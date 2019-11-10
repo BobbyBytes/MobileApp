@@ -9,9 +9,12 @@ public class UserData {
          LastName = lastName;
          Nickname = nickname;
      }
+
         private String FirstName;
         private  String LastName;
         private String Nickname;
+        private String Description;
+        private String ImagePath;
 
     public String getFirstName() {
         return FirstName;
@@ -23,6 +26,12 @@ public class UserData {
 
     public String getNickname() { return Nickname;}
 
+    public String getImagePath() {return ImagePath;}
+
+    public String getDescription() { return  Description;}
+
+
+
     public void setfirstName(String firstName){
         FirstName = firstName;
     }
@@ -32,6 +41,14 @@ public class UserData {
 
     public void setnickname(String nickname){
         Nickname = nickname;
+    }
+
+    public void setDescription(String description){
+        Description = description;
+    }
+
+    public void setImagePath(String imagePath){
+        ImagePath = imagePath;
     }
 
 

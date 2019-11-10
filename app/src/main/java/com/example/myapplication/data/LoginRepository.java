@@ -1,6 +1,8 @@
 package com.example.myapplication.data;
 
+import android.content.Context;
 import com.example.myapplication.data.model.LoggedInUser;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -9,9 +11,9 @@ import com.example.myapplication.data.model.LoggedInUser;
 public class LoginRepository {
 
     private static volatile LoginRepository instance;
-
+    private FirebaseAuth mAuth;
     private LoginDataSource dataSource;
-
+    private Context context = null;
     // If user credentials will be cached in local storage, it is recommended it be encrypted
     // @see https://developer.android.com/training/articles/keystore
     private LoggedInUser user = null;
@@ -45,10 +47,14 @@ public class LoginRepository {
 
     public Result<LoggedInUser> login(String username, String password) {
         // handle login
+        // Initialize Firebase Auth
+
         Result<LoggedInUser> result = dataSource.login(username, password);
         if (result instanceof Result.Success) {
             setLoggedInUser(((Result.Success<LoggedInUser>) result).getData());
         }
         return result;
     }
+
+
 }
