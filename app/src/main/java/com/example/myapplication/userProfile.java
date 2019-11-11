@@ -3,14 +3,18 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageDecoder;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import com.google.android.gms.tasks.OnCompleteListener;
+import android.util.Log;
+import android.view.View;
+import android.webkit.MimeTypeMap;
+import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
@@ -20,18 +24,8 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.webkit.MimeTypeMap;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
-import static com.google.common.io.Files.getFileExtension;
 
 public class userProfile extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -46,24 +40,23 @@ public class userProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize Firebase Auth
+        // Initialize Firebase Auth instance
         mAuth = FirebaseAuth.getInstance();
         User = mAuth.getCurrentUser();
         Log.d("GETUSER TAG",User.getEmail());
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference riversRef = mStorageRef.child("Neil_Armstrong.jpg");
-
+        StorageReference userProfilePicRef = mStorageRef.child(User.getEmail() + ".jpg");
         try {
             localFile = File.createTempFile("images", "jpg");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        riversRef.getFile(localFile)
+        userProfilePicRef.getFile(localFile)
                 .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         // Successfully downloaded data to local file
-                        // ...
+                        // Now set the image(bitmap) to the view
                         String filePath = localFile.getAbsolutePath();
                         bitmap = BitmapFactory.decodeFile(filePath);
                         mImage.setImageBitmap(bitmap);
@@ -78,6 +71,7 @@ public class userProfile extends AppCompatActivity {
             }
         });
 
+        //Set content of this activity
         setContentView(R.layout.activity_user_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -107,16 +101,8 @@ public class userProfile extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
-
-
-
-
-
-
     }
     //End OnCreate
-
 
     //After choosing a picture
     @Override
@@ -149,7 +135,6 @@ public class userProfile extends AppCompatActivity {
                     // ... MAybe get some data here?
                 }
             });
-
         }
     }
 
@@ -181,19 +166,5 @@ public class userProfile extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-    }
-    private void signInAnonymously() {
-        mAuth.signInAnonymously().addOnSuccessListener(this, new  OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                // do your stuff
-            }
-        })
-                .addOnFailureListener(this, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Log.e("MyTAg", "signInAnonymously:FAILURE", exception);
-                    }
-                });
     }
 }
