@@ -38,6 +38,7 @@ public class userProfile extends AppCompatActivity {
     private FirebaseAuth mAuth;
     ImageView mImage;
     Bitmap bitmap;
+    FirebaseUser User;
     File localFile = null;
     private Uri mImageUri;
     private StorageReference mStorageRef;
@@ -47,7 +48,7 @@ public class userProfile extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser User = mAuth.getCurrentUser();
+        User = mAuth.getCurrentUser();
         Log.d("GETUSER TAG",User.getEmail());
         mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference riversRef = mStorageRef.child("Neil_Armstrong.jpg");
@@ -132,7 +133,7 @@ public class userProfile extends AppCompatActivity {
             // Create a storage reference from our app
             StorageReference storageRef = FirebaseStorage.getInstance().getReference();
 
-            StorageReference imageRef = storageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
+            StorageReference imageRef = storageRef.child(User.getEmail() + "." + getFileExtension(mImageUri));
             UploadTask uploadTask = imageRef.putFile(mImageUri);
 
             // Register observers to listen for when the download is done or if it fails
