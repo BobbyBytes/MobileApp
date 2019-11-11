@@ -58,8 +58,6 @@ public class LoginActivity extends AppCompatActivity {
     public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 9003;
     public static final int ERROR_DIALOG_REQUEST = 9001;
     private static final String TAG = "LoginActivity";
-
-
     private FirebaseAuth mAuth;
 
     //Coding with mitch
@@ -78,7 +76,8 @@ public class LoginActivity extends AppCompatActivity {
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
-        final Button loginButton = findViewById(R.id.login);
+        final Button signInButton = findViewById(R.id.sign_in);
+        final Button signUpButton = findViewById(R.id.sign_up);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
@@ -87,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginFormState == null) {
                     return;
                 }
-                loginButton.setEnabled(loginFormState.isDataValid());
+                signUpButton.setEnabled(loginFormState.isDataValid());
                 if (loginFormState.getUsernameError() != null) {
                     usernameEditText.setError(getString(loginFormState.getUsernameError()));
                 }
@@ -118,6 +117,21 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
+            @Override
+            public void onChanged(@Nullable LoginFormState loginFormState) {
+                if (loginFormState == null) {
+                    return;
+                }
+                signInButton.setEnabled(loginFormState.isDataValid());
+                if (loginFormState.getUsernameError() != null) {
+                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
+                }
+                if (loginFormState.getPasswordError() != null) {
+                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
+                }
+            }
+        });
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -148,8 +162,8 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        //Add signup button listener and try to create a new account
+        signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
@@ -180,7 +194,40 @@ public class LoginActivity extends AppCompatActivity {
                         });
             }
         });
-    }
+
+        //Add signup button listener and try to create a new account
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadingProgressBar.setVisibility(View.VISIBLE);
+
+                mAuth = FirebaseAuth.getInstance();
+                mAuth.signInWithEmailAndPassword(usernameEditText.getText().toString(),passwordEditText.getText().toString())
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d("MyTag", "signin user :success");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    //updateUI(user);
+                                    loginViewModel.login(usernameEditText.getText().toString(),
+                                            passwordEditText.getText().toString());
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w("MyTag", "sign in user :failure", task.getException());
+                                    Toast.makeText(getApplicationContext(), "Sign in failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                    loginViewModel.login(null, null);
+                                    //updateUI(null);
+                                }
+
+                                // ...
+                            }
+                        });
+            }
+        });
+}
 
 
     private void updateUiWithUser(LoggedInUserView model) {
