@@ -39,6 +39,7 @@ import com.example.myapplication.R;
 
 
 import com.example.myapplication.UserData;
+import com.example.myapplication.messengerActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -187,10 +188,9 @@ public class LoginActivity extends AppCompatActivity {
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w("MyTag", "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                    Toast.makeText(getApplicationContext(), "Authentication failed... Could not create new user.",
                                             Toast.LENGTH_SHORT).show();
-                                    loginViewModel.login(null, null);
-                                    //updateUI(null);
+                                    refreshThisClass();
                                 }
 
                                 // ...
@@ -221,9 +221,9 @@ public class LoginActivity extends AppCompatActivity {
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w("MyTag", "sign in user :failure", task.getException());
-                                    Toast.makeText(getApplicationContext(), "Sign in failed.",
+                                    Toast.makeText(getApplicationContext(), "Sign in failed. Invalid Credentials",
                                             Toast.LENGTH_SHORT).show();
-                                    loginViewModel.login(null, null);
+                                    refreshThisClass();
                                     //updateUI(null);
                                 }
 
@@ -234,6 +234,12 @@ public class LoginActivity extends AppCompatActivity {
         });
 }
 
+    private void refreshThisClass(){
+        //updateUI(null);
+        Intent refresh = new Intent();
+        refresh.setClass(this, LoginActivity.class);
+        startActivity(refresh);
+    }
 
     private void updateUiWithUser(LoggedInUserView model) {
 
