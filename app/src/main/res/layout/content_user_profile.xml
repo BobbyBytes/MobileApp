@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <RatingBar
-            android:id="@+id/ratingBar4"
+            android:id="@+id/ratingBar12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

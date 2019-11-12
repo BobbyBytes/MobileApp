@@ -37,6 +37,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,7 @@ public class userProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -136,10 +138,17 @@ public class userProfile extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
         mImage.setImageBitmap(bitmap);
 
+        setRateVal();
 
     }
     //End OnCreate
 
+
+    private void setRateVal()
+    {
+        RatingBar ratingBar = findViewById(R.id.ratingBar12);
+        ratingBar.setRating(3.0f);
+    }
 
     //After choosing a picture
     @Override
