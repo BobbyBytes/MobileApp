@@ -160,5 +160,6 @@ public class MainContent extends AppCompatActivity {
         gotoMyProfile.setClass(this, meUserProfile.class);
         startActivity(gotoMyProfile);
     }
+
 }
 
