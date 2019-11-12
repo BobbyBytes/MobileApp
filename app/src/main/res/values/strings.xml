@@ -11,7 +11,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_user_profile">userProfile</string>
+    <string name="title_activity_user_profile"></string>
     <string name="title_activity_map">mapActivity</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>

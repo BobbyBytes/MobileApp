@@ -43,33 +43,38 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/bioTextView"
-            android:layout_width="match_parent"
-            android:layout_height="178dp"
-            android:layout_weight="1"
-            android:text="BIO/DESCRIPTION GOES HERE"
-            android:textSize="36sp" />
-
-        <TextView
             android:id="@+id/videoLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:text="Demo Reel"
             android:textSize="18sp" />
 
-        <VideoView
-            android:id="@+id/demoReel"
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="278dp"
-            android:layout_weight="1" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:autoLink="all"
+            android:text="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
 
-        <Button
-            android:id="@+id/playButton"
+        <TextView
+            android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="[Play]" />
+            android:text="Bio:"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/bioTextView"
+            android:layout_width="match_parent"
+            android:layout_height="459dp"
+            android:layout_weight="1"
+            android:text="This is a user bio. This is a user bio. This is a user bio. This is a user bio. This is a user bio. This is a user bio. This is a user bio. This is a user bio.This is a user bio. This is a user bio. This is a user bio. This is a user bio. This is a user bio. "
+            android:textSize="36sp" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
