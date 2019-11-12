@@ -38,6 +38,8 @@ import com.example.myapplication.MainContent;
 import com.example.myapplication.R;
 
 
+import com.example.myapplication.UserData;
+import com.example.myapplication.messengerActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,6 +47,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -58,8 +61,6 @@ public class LoginActivity extends AppCompatActivity {
     public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 9003;
     public static final int ERROR_DIALOG_REQUEST = 9001;
     private static final String TAG = "LoginActivity";
-
-
     private FirebaseAuth mAuth;
 
     //Coding with mitch
@@ -78,7 +79,8 @@ public class LoginActivity extends AppCompatActivity {
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
-        final Button loginButton = findViewById(R.id.login);
+        final Button signInButton = findViewById(R.id.sign_in);
+        final Button signUpButton = findViewById(R.id.sign_up);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
@@ -87,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginFormState == null) {
                     return;
                 }
-                loginButton.setEnabled(loginFormState.isDataValid());
+                signUpButton.setEnabled(loginFormState.isDataValid());
                 if (loginFormState.getUsernameError() != null) {
                     usernameEditText.setError(getString(loginFormState.getUsernameError()));
                 }
@@ -118,6 +120,21 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
+            @Override
+            public void onChanged(@Nullable LoginFormState loginFormState) {
+                if (loginFormState == null) {
+                    return;
+                }
+                signInButton.setEnabled(loginFormState.isDataValid());
+                if (loginFormState.getUsernameError() != null) {
+                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
+                }
+                if (loginFormState.getPasswordError() != null) {
+                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
+                }
+            }
+        });
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -148,8 +165,8 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        //Add signup button listener and try to create a new account
+        signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
@@ -164,14 +181,49 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d("MyTag", "createUserWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     //updateUI(user);
+                                    //Create a user entry into out database
+                                    makeUserDatabaseEntry(usernameEditText.getText().toString());
                                     loginViewModel.login(usernameEditText.getText().toString(),
                                             passwordEditText.getText().toString());
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w("MyTag", "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                    Toast.makeText(getApplicationContext(), "Authentication failed... Could not create new user.",
                                             Toast.LENGTH_SHORT).show();
-                                    loginViewModel.login(null, null);
+                                    refreshThisClass();
+                                }
+
+                                // ...
+                            }
+                        });
+            }
+        });
+
+        //Add signup button listener and try to create a new account
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadingProgressBar.setVisibility(View.VISIBLE);
+
+                mAuth = FirebaseAuth.getInstance();
+                mAuth.signInWithEmailAndPassword(usernameEditText.getText().toString(),passwordEditText.getText().toString())
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d("MyTag", "signin user :success");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    //updateUI(user);
+                                    loginViewModel.login(usernameEditText.getText().toString(),
+                                            passwordEditText.getText().toString());
+
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w("MyTag", "sign in user :failure", task.getException());
+                                    Toast.makeText(getApplicationContext(), "Sign in failed. Invalid Credentials",
+                                            Toast.LENGTH_SHORT).show();
+                                    refreshThisClass();
                                     //updateUI(null);
                                 }
 
@@ -180,10 +232,17 @@ public class LoginActivity extends AppCompatActivity {
                         });
             }
         });
+}
+
+    private void refreshThisClass(){
+        //updateUI(null);
+        Intent refresh = new Intent();
+        refresh.setClass(this, LoginActivity.class);
+        startActivity(refresh);
     }
 
-
     private void updateUiWithUser(LoggedInUserView model) {
+
         String welcome = "HI" + model.getDisplayName();
         // TODO : initiate successful logged in experience
         //Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
@@ -191,6 +250,12 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void makeUserDatabaseEntry(String eMailAddress){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        UserData mUser = new UserData();
+        mUser.setEmailAddress(eMailAddress);
+        db.collection("users").document(eMailAddress).set(mUser);
+    }
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
