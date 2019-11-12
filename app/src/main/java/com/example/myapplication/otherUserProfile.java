@@ -27,10 +27,10 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 
-public class userProfile extends AppCompatActivity {
+public class otherUserProfile extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth mAuth;
-    ImageView mImage;
+
     Bitmap bitmap;
     FirebaseUser User;
     File localFile = null;
@@ -39,13 +39,15 @@ public class userProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Initialize Firebase Auth instance
         mAuth = FirebaseAuth.getInstance();
         User = mAuth.getCurrentUser();
         Log.d("GETUSER TAG",User.getEmail());
+        Intent caller = getIntent();
+        String eMailAddr = caller.getStringExtra("idEmail");
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference userProfilePicRef = mStorageRef.child(User.getEmail() + ".jpg");
+        StorageReference userProfilePicRef = mStorageRef.child(eMailAddr + ".jpg");
+
         try {
             localFile = File.createTempFile("images", "jpg");
         } catch (IOException e) {
@@ -59,15 +61,19 @@ public class userProfile extends AppCompatActivity {
                         // Now set the image(bitmap) to the view
                         String filePath = localFile.getAbsolutePath();
                         bitmap = BitmapFactory.decodeFile(filePath);
+                        ImageView mImage = findViewById(R.id.profile_pic);
                         mImage.setImageBitmap(bitmap);
                         Log.d("MyTAg", "Holy shit it works");
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle failed download
                 // ...
-                Log.d("MyTAg", "onFailure: It didnt work");
+                Log.d("MyTAg", "Downloading image failed");
+                //Set a default profile pic
+
             }
         });
 
@@ -76,16 +82,11 @@ public class userProfile extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mImage = findViewById(R.id.profile_pic);
-        mImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileChooser();
-            }
-        });
+        ImageView mImage = findViewById(R.id.profile_pic);
+
 
         //Grab the name string from the calling intent
-        Intent caller = getIntent();
+
         String firstName = caller.getStringExtra("idFirstName");
         TextView FirstNameTextView = findViewById(R.id.textViewFirstName);
         FirstNameTextView.setText(firstName);
@@ -144,7 +145,7 @@ public class userProfile extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void openFileChooser() {
+    public void openFileChooser(View view) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);

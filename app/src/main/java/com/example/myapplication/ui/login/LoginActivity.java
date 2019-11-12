@@ -38,6 +38,7 @@ import com.example.myapplication.MainContent;
 import com.example.myapplication.R;
 
 
+import com.example.myapplication.UserData;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,6 +46,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -178,6 +180,8 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d("MyTag", "createUserWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     //updateUI(user);
+                                    //Create a user entry into out database
+                                    makeUserDatabaseEntry(usernameEditText.getText().toString());
                                     loginViewModel.login(usernameEditText.getText().toString(),
                                             passwordEditText.getText().toString());
                                 } else {
@@ -213,6 +217,7 @@ public class LoginActivity extends AppCompatActivity {
                                     //updateUI(user);
                                     loginViewModel.login(usernameEditText.getText().toString(),
                                             passwordEditText.getText().toString());
+
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w("MyTag", "sign in user :failure", task.getException());
@@ -231,6 +236,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void updateUiWithUser(LoggedInUserView model) {
+
         String welcome = "HI" + model.getDisplayName();
         // TODO : initiate successful logged in experience
         //Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
@@ -238,6 +244,12 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void makeUserDatabaseEntry(String eMailAddress){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        UserData mUser = new UserData();
+        mUser.setEmailAddress(eMailAddress);
+        db.collection("users").document(eMailAddress).set(mUser);
+    }
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }

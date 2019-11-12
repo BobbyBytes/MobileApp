@@ -14,13 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import java.io.File;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +29,7 @@ public class MainContent extends AppCompatActivity {
     List<UserData> mUserData = new ArrayList<>();
     Context context;
 
+    private FirebaseAuth mAuth;
     // Create adapter and pass in the user data list
     final UsersAdapter adapter = new UsersAdapter(mUserData);
 
@@ -37,15 +38,16 @@ public class MainContent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_scroll_view);
-
+    mAuth = FirebaseAuth.getInstance();
         //Create connection to DB
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         final Context mContext = this.context;
-
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         //Create and write Write a user test
-        UserData User1 = new UserData("Test User3", "From Code Behind", "App Created User3");
-        db.collection("users").document("User3").set(User1);
-
+        UserData User1 = new UserData("User3", "From Code Behind", "App Created User3");
+        User1.setEmailAddress("Neil_Armstrong");
+        db.collection("users").document("User4").set(User1);
+        Log.d("MainContent", "set user to DB ");
         DocumentReference docRef = db.collection("users").document("User3");
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -83,17 +85,17 @@ public class MainContent extends AppCompatActivity {
                 });
 
         // Add some fake people "manually" to the list of users
-        UserData U1 = new UserData("Trey", "Anastasio", "Big Red");
-        mUserData.add(U1);
-
-        U1 = new UserData("Keith", "Moon", "Drummer");
-        mUserData.add(U1);
-
-        U1 = new UserData("Neil", "Armstrong", "Mr. Moon");
-        mUserData.add(U1);
-
-        U1 = new UserData("Max", "Rider", "Singer");
-        AddToList(U1);
+//        UserData U1 = new UserData("Trey", "Anastasio", "Big Red");
+//        mUserData.add(U1);
+//
+//        U1 = new UserData("Keith", "Moon", "Drummer");
+//        mUserData.add(U1);
+//
+//        U1 = new UserData("Neil", "Armstrong", "Mr. Moon");
+//        mUserData.add(U1);
+//
+//        U1 = new UserData("Max", "Rider", "Singer");
+//        AddToList(U1);
 
         //Add the on click listener to the recycler view.
         userListView.addOnItemTouchListener(
@@ -126,13 +128,15 @@ public class MainContent extends AppCompatActivity {
         String firstName = userData.getFirstName();
         String lastName = userData.getLastName();
         String nickName = userData.getNickname();
+        String eMailAddr = userData.getEmailAddress();
 
         Intent gotoUserIntent = new Intent();
         gotoUserIntent.putExtra("idFirstName", firstName);
         gotoUserIntent.putExtra("idLastName", lastName);
         gotoUserIntent.putExtra("idNickName", nickName);
+        gotoUserIntent.putExtra("idEmail", eMailAddr);
 
-        gotoUserIntent.setClass(this, userProfile.class);
+        gotoUserIntent.setClass(this, otherUserProfile.class);
         startActivity(gotoUserIntent);
 
     }
@@ -149,6 +153,12 @@ public class MainContent extends AppCompatActivity {
         Intent gotoInbox = new Intent();
         gotoInbox.setClass(this, messengerActivity.class);
         startActivity(gotoInbox);
+    }
+
+    public void viewMyProfile(View view){
+        Intent gotoMyProfile = new Intent();
+        gotoMyProfile.setClass(this, meUserProfile.class);
+        startActivity(gotoMyProfile);
     }
 }
 

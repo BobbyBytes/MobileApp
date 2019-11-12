@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +32,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         public TextView firstNameTextView;
         public TextView lastNameTextView;
         public TextView nickNameTextView;
+        public ImageView profilePicView;
         public Button messageButton;
 
         // We also create a constructor that accepts the entire item row
@@ -43,6 +45,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             firstNameTextView = (TextView) itemView.findViewById(R.id.myTextView1);
             lastNameTextView = (TextView) itemView.findViewById((R.id.textView2));
             nickNameTextView = (TextView) itemView.findViewById(R.id.textView3);
+            profilePicView = itemView.findViewById(R.id.MyProfilePic);
         }
     }
 
@@ -77,10 +80,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         TextView firstNameTextView = viewHolder.firstNameTextView;
         TextView lastNameTextView = viewHolder.lastNameTextView;
         TextView nickNameTextView = viewHolder.nickNameTextView;
+        ImageView picImageView = viewHolder.profilePicView;
 
         firstNameTextView.setText(myUser.getFirstName());
         lastNameTextView.setText((myUser.getLastName()));
         nickNameTextView.setText((myUser.getNickname()));
+
+
     }
 
             //we can then create an intent here and start a new activity

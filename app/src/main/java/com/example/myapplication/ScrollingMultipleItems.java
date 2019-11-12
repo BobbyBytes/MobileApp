@@ -7,11 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.myapplication.R;
-import com.example.myapplication.UserData;
-import com.example.myapplication.mapActivity;
-import com.example.myapplication.messengerActivity;
-import com.example.myapplication.userProfile;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -52,6 +47,5 @@ public class ScrollingMultipleItems extends AppCompatActivity {
         });
 
     }
-
 }
 

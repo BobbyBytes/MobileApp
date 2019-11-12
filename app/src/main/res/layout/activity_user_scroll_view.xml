@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScrollingMultipleItems">
+    tools:context=".MainContent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userListView"
@@ -57,7 +57,7 @@
             android:layout_width="360px"
             android:layout_height="230px"
             android:layout_weight="1"
-            android:onClick="viewProfile"
+            android:onClick="viewMyProfile"
             app:srcCompat="@drawable/ic_menu_buttons_4" />
 
     </LinearLayout>
