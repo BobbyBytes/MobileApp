@@ -57,9 +57,11 @@ public class UserData {
     public String getImagePath() {
         return ImagePath;
     }
-
     public String getDescription() {
         return Description;
+    }
+    public Bitmap getmBitmap(){
+        return mBitmap;
     }
 
     public void setfirstName(String firstName) {
@@ -86,14 +88,10 @@ public class UserData {
         ImagePath = imagePath;
     }
 
-
-
-    public synchronized Bitmap waitToGetBitmap() throws InterruptedException {
-
-        while (isWorking = true){
-            wait(100);
-        }
-
-        return bitmap;
+    public void setmBitmap(Bitmap bitmap){
+        mBitmap = bitmap;
     }
+
+
+
 }

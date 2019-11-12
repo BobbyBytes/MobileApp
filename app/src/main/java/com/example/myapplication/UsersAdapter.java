@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             firstNameTextView = (TextView) itemView.findViewById(R.id.myTextView1);
             lastNameTextView = (TextView) itemView.findViewById((R.id.textView2));
             nickNameTextView = (TextView) itemView.findViewById(R.id.textView3);
-            profilePicView = itemView.findViewById(R.id.MyProfilePic);
+            profilePicView = (ImageView) itemView.findViewById(R.id.MyProfilePic);
         }
     }
 
@@ -85,6 +86,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         firstNameTextView.setText(myUser.getFirstName());
         lastNameTextView.setText((myUser.getLastName()));
         nickNameTextView.setText((myUser.getNickname()));
+        Bitmap bitmap = myUser.getmBitmap();
+
+
+        picImageView.setImageBitmap(bitmap);
 
 
     }
