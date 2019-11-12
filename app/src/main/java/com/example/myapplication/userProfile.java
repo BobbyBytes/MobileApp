@@ -13,9 +13,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,21 +27,15 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.webkit.MimeTypeMap;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-
-import static com.google.common.io.Files.getFileExtension;
+import java.util.Random;
 
 public class userProfile extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -138,16 +129,47 @@ public class userProfile extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
         mImage.setImageBitmap(bitmap);
 
+        float sum = 0;
+
+        for(int i = 0; i < 15; i++)
+        {
+            sum += generateRatingVal();
+        }
+        sum /= 15;
         setRateVal();
+        setAvgRating(sum);
 
     }
     //End OnCreate
 
+    private double generateRatingVal()
+    {
+        //generates a random float between 0 and 5 to display as a rating
+        float minRating = (float)0.0;
+        float maxRating = (float)5.0;
+        Random rand = new Random();
+        float randNum = minRating + rand.nextFloat() * (maxRating - minRating);
+        return randNum;
+    }
 
     private void setRateVal()
     {
-        RatingBar ratingBar = findViewById(R.id.ratingBar12);
-        ratingBar.setRating(3.0f);
+        float minRating = (float)0.0;
+        float maxRating = (float)5.0;
+        Random rand = new Random();
+        float randNum = minRating + rand.nextFloat() * (maxRating - minRating);
+        RatingBar ratingBar = findViewById(R.id.ratingBar);
+        ratingBar.setRating(randNum);
+    }
+
+    private void setAvgRating(float sum)
+    {
+        RatingBar ratingBar = findViewById(R.id.ratingBar);
+        TextView avgRating = findViewById(R.id.avgRating);
+
+        //float num = ratingBar.getRating();
+
+        avgRating.setText(String.format("%.2f", sum));
     }
 
     //After choosing a picture

@@ -14,12 +14,19 @@
         android:orientation="vertical">
 
         <RatingBar
-            android:id="@+id/ratingBar12"
+            android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:numStars="5"
             android:stepSize="1" />
+
+        <TextView
+            android:id="@+id/avgRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Avg Rating:" />
 
         <TextView
             android:id="@+id/textViewFirstName"
