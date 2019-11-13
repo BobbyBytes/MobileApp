@@ -144,7 +144,7 @@ public class MainContent extends AppCompatActivity {
     public void goToMapScreen(View view)
     {
         Intent goToMap = new Intent();
-        goToMap.setClass(this, mapActivity.class);
+        goToMap.setClass(this, MapsActivity.class);
         startActivity(goToMap);
     }
 
