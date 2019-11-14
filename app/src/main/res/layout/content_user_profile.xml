@@ -14,19 +14,12 @@
         android:orientation="vertical">
 
         <RatingBar
-            android:id="@+id/ratingBar"
+            android:id="@+id/ratingBar4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:numStars="5"
             android:stepSize="1" />
-
-        <TextView
-            android:id="@+id/avgRating"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Avg Rating:" />
 
         <TextView
             android:id="@+id/textViewFirstName"
@@ -50,38 +43,33 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/bioTextView"
+            android:layout_width="match_parent"
+            android:layout_height="178dp"
+            android:layout_weight="1"
+            android:text="BIO/DESCRIPTION GOES HERE"
+            android:textSize="36sp" />
+
+        <TextView
             android:id="@+id/videoLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:text="Demo Reel"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/textView"
+        <VideoView
+            android:id="@+id/demoReel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="1"
-            android:autoLink="all"
-            android:text="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+            android:layout_height="278dp"
+            android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/textView4"
+        <Button
+            android:id="@+id/playButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Bio:"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/bioTextView"
-            android:layout_width="match_parent"
-            android:layout_height="459dp"
-            android:layout_weight="1"
-            android:text="This is a user bio. This is a user bio. This is a user bio. This is a user bio. This is a user bio. This is a user bio. This is a user bio. This is a user bio.This is a user bio. This is a user bio. This is a user bio. This is a user bio. This is a user bio. "
-            android:textSize="36sp" />
+            android:text="[Play]" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
