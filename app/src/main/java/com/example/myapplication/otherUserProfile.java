@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,8 +27,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 public class otherUserProfile extends AppCompatActivity {
+
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth mAuth;
 
@@ -39,7 +42,10 @@ public class otherUserProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // Initialize Firebase Auth instance
+
+
         mAuth = FirebaseAuth.getInstance();
         User = mAuth.getCurrentUser();
         Log.d("GETUSER TAG",User.getEmail());
@@ -102,8 +108,61 @@ public class otherUserProfile extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+
+        mImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser(v);
+            }
+        });
+        String filePath = localFile.getAbsolutePath();
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+        mImage.setImageBitmap(bitmap);
+
+        float sum = 0;
+
+        for(int i = 0; i < 15; i++)
+        {
+            sum += generateRatingVal();
+        }
+        sum /= 15;
+        setRateVal();
+        setAvgRating(sum);
+
     }
     //End OnCreate
+
+    private double generateRatingVal()
+    {
+        //generates a random float between 0 and 5 to display as a rating
+        float minRating = (float)0.0;
+        float maxRating = (float)5.0;
+        Random rand = new Random();
+        float randNum = minRating + rand.nextFloat() * (maxRating - minRating);
+        return randNum;
+    }
+
+    private void setRateVal()
+    {
+        float minRating = (float)0.0;
+        float maxRating = (float)5.0;
+        Random rand = new Random();
+        float randNum = minRating + rand.nextFloat() * (maxRating - minRating);
+        RatingBar ratingBar = findViewById(R.id.ratingBar);
+        ratingBar.setRating(randNum);
+    }
+
+    private void setAvgRating(float sum)
+    {
+        RatingBar ratingBar = findViewById(R.id.ratingBar);
+        TextView avgRating = findViewById(R.id.avgRating);
+
+        //float num = ratingBar.getRating();
+
+        avgRating.setText(String.format("%.2f", sum));
+    }
 
     //After choosing a picture
     @Override
