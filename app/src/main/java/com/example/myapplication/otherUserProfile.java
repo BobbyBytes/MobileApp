@@ -1,4 +1,5 @@
 package com.example.myapplication;
+
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,38 +19,17 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-
-//import com.google.android.youtube.player.YouTubeInitializationResult;
-//import com.google.android.youtube.player.YouTubePlayer;
-//import com.google.android.youtube.player.YouTubePlayerFragment;
-
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.util.Log;
-import android.view.View;
-import android.webkit.MimeTypeMap;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
-import android.widget.Toast;
-import java.util.Random;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 public class otherUserProfile extends AppCompatActivity {
-
-
-
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth mAuth;
@@ -63,8 +44,6 @@ public class otherUserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Initialize Firebase Auth instance
-
-
         mAuth = FirebaseAuth.getInstance();
         User = mAuth.getCurrentUser();
         Log.d("GETUSER TAG",User.getEmail());
@@ -182,7 +161,6 @@ public class otherUserProfile extends AppCompatActivity {
         avgRating.setText(String.format("%.2f", sum));
     }
 
-
     //After choosing a picture
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -229,7 +207,6 @@ public class otherUserProfile extends AppCompatActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
-
 
     public void goBack(View view)
     {
