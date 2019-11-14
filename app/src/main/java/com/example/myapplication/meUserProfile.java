@@ -11,56 +11,34 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-<<<<<<< Updated upstream:app/src/main/java/com/example/myapplication/meUserProfile.java
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-=======
->>>>>>> Stashed changes:app/src/main/java/com/example/myapplication/userProfile.java
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-<<<<<<< Updated upstream:app/src/main/java/com/example/myapplication/meUserProfile.java
 import java.io.File;
 import java.io.IOException;
-=======
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import android.view.View;
-import android.webkit.MimeTypeMap;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
->>>>>>> Stashed changes:app/src/main/java/com/example/myapplication/userProfile.java
 
 public class meUserProfile extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
-<<<<<<< Updated upstream:app/src/main/java/com/example/myapplication/meUserProfile.java
+
     private FirebaseAuth mAuth;
 
     Bitmap bitmap;
     FirebaseUser User;
     File localFile = null;
-=======
+
     String UserID;
->>>>>>> Stashed changes:app/src/main/java/com/example/myapplication/userProfile.java
+
     private Uri mImageUri;
     private StorageReference mStorageRef;
     @Override
@@ -110,13 +88,11 @@ public class meUserProfile extends AppCompatActivity {
 
 
         //Grab the name string from the calling intent
-<<<<<<< Updated upstream:app/src/main/java/com/example/myapplication/meUserProfile.java
+
         Intent caller = getIntent();
         String firstName = caller.getStringExtra("idFirstName");
-=======
-        final Intent caller = getIntent();
-        String firstName =  caller.getStringExtra("idFirstName");
->>>>>>> Stashed changes:app/src/main/java/com/example/myapplication/userProfile.java
+
+
         TextView FirstNameTextView = findViewById(R.id.textViewFirstName);
         FirstNameTextView.setText(firstName);
         String lastName = caller.getStringExtra("idLastName");
@@ -131,14 +107,13 @@ public class meUserProfile extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-<<<<<<< Updated upstream:app/src/main/java/com/example/myapplication/meUserProfile.java
-=======
+
 
         ImageView mImageView = findViewById(R.id.profile_pic);
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFileChooser();
+                openFileChooser(v);
             }
         });
 
@@ -152,9 +127,6 @@ public class meUserProfile extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Glide.with(this /* context */)
-                .load(ProfilePicRef)
-                .into(mImageView);
 
 //        ProfilePicRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
 //            @Override
@@ -172,7 +144,7 @@ public class meUserProfile extends AppCompatActivity {
 //
 //        Bitmap myBitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
 //        mImageView.setImageBitmap(myBitmap);
->>>>>>> Stashed changes:app/src/main/java/com/example/myapplication/userProfile.java
+
     }
     //End OnCreate
 
@@ -191,11 +163,9 @@ public class meUserProfile extends AppCompatActivity {
             // Create a storage reference from our app
             StorageReference storageRef = FirebaseStorage.getInstance().getReference();
 
-<<<<<<< Updated upstream:app/src/main/java/com/example/myapplication/meUserProfile.java
+
             StorageReference imageRef = storageRef.child(User.getEmail() + "." + getFileExtension(mImageUri));
-=======
-            StorageReference imageRef = storageRef.child(UserID+ "." + getFileExtension(mImageUri));
->>>>>>> Stashed changes:app/src/main/java/com/example/myapplication/userProfile.java
+
             UploadTask uploadTask = imageRef.putFile(mImageUri);
 
             // Register observers to listen for when the download is done or if it fails
