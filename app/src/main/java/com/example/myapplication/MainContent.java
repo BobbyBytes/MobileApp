@@ -2,9 +2,12 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,7 +24,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +42,14 @@ public class MainContent extends AppCompatActivity {
     // Create adapter and pass in the user data list
     final UsersAdapter adapter = new UsersAdapter(mUserData);
 
+    File localFile = null;
+    Bitmap bitmap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_scroll_view);
-    mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         //Create connection to DB
 
         final Context mContext = this.context;
@@ -77,25 +88,14 @@ public class MainContent extends AppCompatActivity {
                                 UserData Doc_From_DB = document.toObject(UserData.class);
                                 mUserData.add(Doc_From_DB);
                             }
+                            getImagesForProfilesFromList(mUserData);
                             adapter.notifyDataSetChanged();
                         } else {
                             Log.d("TAG", "Error getting documents: ", task.getException());
                         }
                     }
                 });
-
-        // Add some fake people "manually" to the list of users
-//        UserData U1 = new UserData("Trey", "Anastasio", "Big Red");
-//        mUserData.add(U1);
-//
-//        U1 = new UserData("Keith", "Moon", "Drummer");
-//        mUserData.add(U1);
-//
-//        U1 = new UserData("Neil", "Armstrong", "Mr. Moon");
-//        mUserData.add(U1);
-//
-//        U1 = new UserData("Max", "Rider", "Singer");
-//        AddToList(U1);
+        
 
         //Add the on click listener to the recycler view.
         userListView.addOnItemTouchListener(
@@ -106,6 +106,7 @@ public class MainContent extends AppCompatActivity {
                         CreateAndViewUserProfile(view, mUser);
                         ;
                     }
+
                     @Override
                     public void onLongItemClick(View view, int position) {
                         // do whatever
@@ -141,24 +142,65 @@ public class MainContent extends AppCompatActivity {
 
     }
 
-    public void goToMapScreen(View view)
-    {
+    public void goToMapScreen(View view) {
         Intent goToMap = new Intent();
         goToMap.setClass(this, MapsActivity.class);
         startActivity(goToMap);
     }
 
-    public void viewInbox(View view)
-    {
+    public void viewInbox(View view) {
         Intent gotoInbox = new Intent();
         gotoInbox.setClass(this, messengerActivity.class);
         startActivity(gotoInbox);
     }
 
-    public void viewMyProfile(View view){
+    public void viewMyProfile(View view) {
         Intent gotoMyProfile = new Intent();
         gotoMyProfile.setClass(this, meUserProfile.class);
         startActivity(gotoMyProfile);
     }
+
+    void getImagesForProfilesFromList(List<UserData> usersList) {
+        StorageReference mStorageRef;
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        int i = 0;
+
+        for (final UserData user : usersList)
+        {
+            try {
+               user.localFile  = File.createTempFile("image" + i, "jpg");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            StorageReference userProfilePicRef = mStorageRef.child(user.getEmailAddress() + ".jpg");
+            userProfilePicRef.getFile(user.localFile)
+                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            // Successfully downloaded data to local file
+                            // Now set the image(bitmap) to the view
+
+
+                            String filePath = user.localFile.getAbsolutePath();
+                            bitmap = BitmapFactory.decodeFile(filePath);
+                            user.setmBitmap(bitmap);
+                            Log.d("MainContent", "User bitmap added");
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle failed download
+                    // ...
+                    Log.d("MainContent", "Downloading image to main Content failed");
+                    //Set a default profile pic
+
+                }
+            });
+            i++;
+        }
+    }
+
+
 }
 
