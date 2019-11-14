@@ -14,6 +14,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 12cf475... Merged
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,6 +31,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
+<<<<<<< HEAD
 
 
 public class meUserProfile extends AppCompatActivity {
@@ -34,13 +39,21 @@ public class meUserProfile extends AppCompatActivity {
 
 
 
+=======
+
+public class meUserProfile extends AppCompatActivity {
+    private static final int PICK_IMAGE_REQUEST = 1;
+>>>>>>> parent of 12cf475... Merged
     private FirebaseAuth mAuth;
 
     Bitmap bitmap;
     FirebaseUser User;
     File localFile = null;
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> parent of 12cf475... Merged
     private Uri mImageUri;
     private StorageReference mStorageRef;
     @Override
@@ -90,7 +103,10 @@ public class meUserProfile extends AppCompatActivity {
         //Grab the name string from the calling intent
         Intent caller = getIntent();
         String firstName = caller.getStringExtra("idFirstName");
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 12cf475... Merged
         TextView FirstNameTextView = findViewById(R.id.textViewFirstName);
         FirstNameTextView.setText(firstName);
         String lastName = caller.getStringExtra("idLastName");
@@ -105,6 +121,7 @@ public class meUserProfile extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+<<<<<<< HEAD
 
 
 
@@ -145,6 +162,8 @@ public class meUserProfile extends AppCompatActivity {
 //        mImageView.setImageBitmap(myBitmap);
 
 
+=======
+>>>>>>> parent of 12cf475... Merged
     }
     //End OnCreate
 
@@ -162,8 +181,13 @@ public class meUserProfile extends AppCompatActivity {
             //Upload the image to FBase here...
             // Create a storage reference from our app
             StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+<<<<<<< HEAD
             StorageReference imageRef = storageRef.child(User.getEmail() + "." + getFileExtension(mImageUri));
 
+=======
+
+            StorageReference imageRef = storageRef.child(User.getEmail() + "." + getFileExtension(mImageUri));
+>>>>>>> parent of 12cf475... Merged
             UploadTask uploadTask = imageRef.putFile(mImageUri);
 
             // Register observers to listen for when the download is done or if it fails
