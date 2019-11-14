@@ -24,6 +24,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -31,13 +32,14 @@ import java.io.IOException;
 public class meUserProfile extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
 
+
+
     private FirebaseAuth mAuth;
 
     Bitmap bitmap;
     FirebaseUser User;
     File localFile = null;
 
-    String UserID;
 
     private Uri mImageUri;
     private StorageReference mStorageRef;
@@ -85,20 +87,16 @@ public class meUserProfile extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ImageView mImage = findViewById(R.id.profile_pic);
-
-
         //Grab the name string from the calling intent
-
         Intent caller = getIntent();
         String firstName = caller.getStringExtra("idFirstName");
-
 
         TextView FirstNameTextView = findViewById(R.id.textViewFirstName);
         FirstNameTextView.setText(firstName);
         String lastName = caller.getStringExtra("idLastName");
         TextView LastNameTextView = findViewById(R.id.textViewLastName);
         LastNameTextView.setText(lastName);
-        UserID = firstName + "_" + lastName;
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +105,7 @@ public class meUserProfile extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
 
 
         ImageView mImageView = findViewById(R.id.profile_pic);
@@ -145,6 +144,7 @@ public class meUserProfile extends AppCompatActivity {
 //        Bitmap myBitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
 //        mImageView.setImageBitmap(myBitmap);
 
+
     }
     //End OnCreate
 
@@ -162,8 +162,6 @@ public class meUserProfile extends AppCompatActivity {
             //Upload the image to FBase here...
             // Create a storage reference from our app
             StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-
-
             StorageReference imageRef = storageRef.child(User.getEmail() + "." + getFileExtension(mImageUri));
 
             UploadTask uploadTask = imageRef.putFile(mImageUri);
