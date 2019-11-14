@@ -95,19 +95,7 @@ public class MainContent extends AppCompatActivity {
                         }
                     }
                 });
-
-        // Add some fake people "manually" to the list of users
-//        UserData U1 = new UserData("Trey", "Anastasio", "Big Red");
-//        mUserData.add(U1);
-//
-//        U1 = new UserData("Keith", "Moon", "Drummer");
-//        mUserData.add(U1);
-//
-//        U1 = new UserData("Neil", "Armstrong", "Mr. Moon");
-//        mUserData.add(U1);
-//
-//        U1 = new UserData("Max", "Rider", "Singer");
-//        AddToList(U1);
+        
 
         //Add the on click listener to the recycler view.
         userListView.addOnItemTouchListener(
