@@ -90,7 +90,7 @@ public class meUserProfile extends AppCompatActivity {
         });
 
 
-        //Grab the name string from the calling intent
+        //Grab the user information from the calling intent.
         Intent caller = getIntent();
         String firstName = caller.getStringExtra("idFirstName");
         TextView FirstNameTextView = findViewById(R.id.textViewFirstName);
@@ -99,6 +99,7 @@ public class meUserProfile extends AppCompatActivity {
         TextView LastNameTextView = findViewById(R.id.textViewLastName);
         LastNameTextView.setText(lastName);
 
+        //Set that floating action button.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +111,7 @@ public class meUserProfile extends AppCompatActivity {
     }
     //End OnCreate
 
-    //After choosing a picture
+    //After choosing a picture from the file chooser.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -157,11 +158,9 @@ public class meUserProfile extends AppCompatActivity {
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-
     public void goBack(View view)
     {
         //goto main scroll page
-
         Intent gotoMain = new Intent();
         gotoMain.setClass(this, MainContent.class);
         startActivity(gotoMain);
