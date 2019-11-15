@@ -33,19 +33,20 @@ import java.io.IOException;
 public class meUserProfile extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth mAuth;
-
-    Bitmap bitmap;
-    FirebaseUser User;
-    File localFile = null;
+    private Bitmap bitmap;
+    private FirebaseUser User;
+    private File localFile = null;
     private Uri mImageUri;
     private StorageReference mStorageRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ImageView mImage = findViewById(R.id.profile_pic);
         // Initialize Firebase Auth instance
         mAuth = FirebaseAuth.getInstance();
         User = mAuth.getCurrentUser();
         Log.d("GETUSER TAG",User.getEmail());
+        //Create storage reference
         mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference userProfilePicRef = mStorageRef.child(User.getEmail() + ".jpg");
         try {
@@ -70,10 +71,8 @@ public class meUserProfile extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle failed download
-                // ...
-                Log.d("MyTAg", "Downloading image failed");
-                //Set a default profile pic
-
+                // TODO Set Default profile pic
+                Log.d("MeUserProfile", "Downloading image failed");
             }
         });
 
@@ -82,7 +81,13 @@ public class meUserProfile extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ImageView mImage = findViewById(R.id.profile_pic);
+        //Set on click to open file chooser for a profile pic.
+        mImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFileChooser(view);
+            }
+        });
 
 
         //Grab the name string from the calling intent
