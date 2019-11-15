@@ -75,9 +75,8 @@ public class otherUserProfile extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle failed download
-                // ...
+                // TODO Create Default User Profile Pic
                 Log.d("MyTAg", "Downloading image failed");
-                //Set a default profile pic
 
             }
         });
@@ -88,7 +87,6 @@ public class otherUserProfile extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ImageView mImage = findViewById(R.id.profile_pic);
-
 
         //Grab the name string from the calling intent
 
@@ -108,16 +106,6 @@ public class otherUserProfile extends AppCompatActivity {
             }
         });
 
-
-        mImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileChooser(v);
-            }
-        });
-        String filePath = localFile.getAbsolutePath();
-        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-        mImage.setImageBitmap(bitmap);
 
         float sum = 0;
 
@@ -145,7 +133,7 @@ public class otherUserProfile extends AppCompatActivity {
     private void setRateVal()
     {
         float minRating = (float)0.0;
-        
+
         float maxRating = (float)5.0;
         Random rand = new Random();
         float randNum = minRating + rand.nextFloat() * (maxRating - minRating);
