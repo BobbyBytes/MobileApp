@@ -33,18 +33,19 @@ public class otherUserProfile extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth mAuth;
-
-    Bitmap bitmap;
-    FirebaseUser User;
-    File localFile = null;
+    private Bitmap bitmap;
+    private FirebaseUser User;
+    private File localFile = null;
     private Uri mImageUri;
     private StorageReference mStorageRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize Firebase Auth instance
+        // Initialize FireBase Authentication instance
         mAuth = FirebaseAuth.getInstance();
+        //Get the current FireBase User
         User = mAuth.getCurrentUser();
         Log.d("GETUSER TAG",User.getEmail());
         Intent caller = getIntent();
@@ -144,6 +145,7 @@ public class otherUserProfile extends AppCompatActivity {
     private void setRateVal()
     {
         float minRating = (float)0.0;
+        
         float maxRating = (float)5.0;
         Random rand = new Random();
         float randNum = minRating + rand.nextFloat() * (maxRating - minRating);
