@@ -42,13 +42,18 @@ public class meUserProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ImageView mImage = findViewById(R.id.profile_pic);
+
         // Initialize Firebase Auth instance
         mAuth = FirebaseAuth.getInstance();
         User = mAuth.getCurrentUser();
+
         Log.d("GETUSER TAG",User.getEmail());
+
         //Create storage reference
         mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference userProfilePicRef = mStorageRef.child(User.getEmail() + ".jpg");
+
+        //Create a local temporary file
         try {
             localFile = File.createTempFile("images", "jpg");
         } catch (IOException e) {
@@ -64,7 +69,7 @@ public class meUserProfile extends AppCompatActivity {
                         bitmap = BitmapFactory.decodeFile(filePath);
                         ImageView mImage = findViewById(R.id.profile_pic);
                         mImage.setImageBitmap(bitmap);
-                        Log.d("MyTAg", "Holy shit it works");
+                        Log.d("MeUserProfile", "Download image succeeded");
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -89,7 +94,7 @@ public class meUserProfile extends AppCompatActivity {
             }
         });
 
-
+        
         //Grab the user information from the calling intent.
         Intent caller = getIntent();
         String firstName = caller.getStringExtra("idFirstName");
