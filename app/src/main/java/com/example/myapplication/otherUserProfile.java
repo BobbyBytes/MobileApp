@@ -82,7 +82,7 @@ public class otherUserProfile extends AppCompatActivity {
         });
 
         //Set content of this activity
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.activity_other_user_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
