@@ -29,7 +29,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
-
+//This is the user profile for the CURRENT user.. so the information here should be editable, via an edit button.
 public class meUserProfile extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth mAuth;
