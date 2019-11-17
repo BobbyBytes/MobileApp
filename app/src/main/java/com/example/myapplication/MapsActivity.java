@@ -37,7 +37,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final String TAG = "MAPSACTIVITY";
     private FusedLocationProviderClient mFusedLocationProviderClient;
-    private static final float DEFAULT_ZOOM = 10f;
+    private static final float DEFAULT_ZOOM = 12.5f;
 
 
     @Override
@@ -155,14 +155,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         }
+        LatLng Olympia_s = new LatLng(42.646445, -71.316650);
+        LatLng Hearing_r = new LatLng(42.634200, -71.317904);
+        LatLng Tsongas_c = new LatLng(42.650243, -71.313149);
 
 
-        //mMap.setMyLocationEnabled(true);
-        // Add a marker in Sydney and move the camera
-        //LatLng lowell = new LatLng(42.6334, -71.3162);
+        mMap.addMarker(new MarkerOptions().position(Olympia_s).title("Olympia's Zorba Music Hall"));
+        mMap.addMarker(new MarkerOptions().position(Hearing_r).title("The Hearing Room"));
+        mMap.addMarker(new MarkerOptions().position(Tsongas_c).title("Tsongas Center At UMass Lowell"));
 
-        //mMap.addMarker(new MarkerOptions().position(lowell).title("Marker in Lowell MA"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(lowell));
+
+
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
     }
 
