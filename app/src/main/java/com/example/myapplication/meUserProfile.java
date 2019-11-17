@@ -29,25 +29,31 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
-
+//This is the user profile for the CURRENT user.. so the information here should be editable, via an edit button.
 public class meUserProfile extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth mAuth;
-
-    Bitmap bitmap;
-    FirebaseUser User;
-    File localFile = null;
+    private Bitmap bitmap;
+    private FirebaseUser User;
+    private File localFile = null;
     private Uri mImageUri;
     private StorageReference mStorageRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ImageView mImage = findViewById(R.id.profile_pic);
+
         // Initialize Firebase Auth instance
         mAuth = FirebaseAuth.getInstance();
         User = mAuth.getCurrentUser();
+
         Log.d("GETUSER TAG",User.getEmail());
+
+        //Create storage reference
         mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference userProfilePicRef = mStorageRef.child(User.getEmail() + ".jpg");
+
+        //Create a local temporary file
         try {
             localFile = File.createTempFile("images", "jpg");
         } catch (IOException e) {
@@ -63,17 +69,15 @@ public class meUserProfile extends AppCompatActivity {
                         bitmap = BitmapFactory.decodeFile(filePath);
                         ImageView mImage = findViewById(R.id.profile_pic);
                         mImage.setImageBitmap(bitmap);
-                        Log.d("MyTAg", "Holy shit it works");
+                        Log.d("MeUserProfile", "Download image succeeded");
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle failed download
-                // ...
-                Log.d("MyTAg", "Downloading image failed");
-                //Set a default profile pic
-
+                // TODO Set Default profile pic
+                Log.d("MeUserProfile", "Downloading image failed");
             }
         });
 
@@ -82,10 +86,16 @@ public class meUserProfile extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ImageView mImage = findViewById(R.id.profile_pic);
+        //Set on click to open file chooser for a profile pic.
+        mImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFileChooser(view);
+            }
+        });
 
-
-        //Grab the name string from the calling intent
+        
+        //Grab the user information from the calling intent.
         Intent caller = getIntent();
         String firstName = caller.getStringExtra("idFirstName");
         TextView FirstNameTextView = findViewById(R.id.textViewFirstName);
@@ -94,6 +104,7 @@ public class meUserProfile extends AppCompatActivity {
         TextView LastNameTextView = findViewById(R.id.textViewLastName);
         LastNameTextView.setText(lastName);
 
+        //Set that floating action button.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +116,7 @@ public class meUserProfile extends AppCompatActivity {
     }
     //End OnCreate
 
-    //After choosing a picture
+    //After choosing a picture from the file chooser.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -152,11 +163,9 @@ public class meUserProfile extends AppCompatActivity {
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-
     public void goBack(View view)
     {
         //goto main scroll page
-
         Intent gotoMain = new Intent();
         gotoMain.setClass(this, MainContent.class);
         startActivity(gotoMain);
