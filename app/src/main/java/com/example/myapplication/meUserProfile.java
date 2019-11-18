@@ -38,11 +38,13 @@ public class meUserProfile extends AppCompatActivity {
     private File localFile = null;
     private Uri mImageUri;
     private StorageReference mStorageRef;
+    ImageView mImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ImageView mImage = findViewById(R.id.profile_pic);
 
+         mImage = findViewById(R.id.me_profile_pic);
         // Initialize Firebase Auth instance
         mAuth = FirebaseAuth.getInstance();
         User = mAuth.getCurrentUser();
@@ -67,7 +69,7 @@ public class meUserProfile extends AppCompatActivity {
                         // Now set the image(bitmap) to the view
                         String filePath = localFile.getAbsolutePath();
                         bitmap = BitmapFactory.decodeFile(filePath);
-                        ImageView mImage = findViewById(R.id.profile_pic);
+                        ImageView mImage = findViewById(R.id.me_profile_pic);
                         mImage.setImageBitmap(bitmap);
                         Log.d("MeUserProfile", "Download image succeeded");
 
@@ -86,22 +88,22 @@ public class meUserProfile extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Set on click to open file chooser for a profile pic.
-        mImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openFileChooser(view);
-            }
-        });
+/*        //Set on click to open file chooser for a profile pic.
+//        mImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openFileChooser(view);
+////            }
+////        });*/
 
         
         //Grab the user information from the calling intent.
         Intent caller = getIntent();
         String firstName = caller.getStringExtra("idFirstName");
-        TextView FirstNameTextView = findViewById(R.id.textViewFirstName);
+        TextView FirstNameTextView = findViewById(R.id.me_profile_textViewFirstName);
         FirstNameTextView.setText(firstName);
         String lastName = caller.getStringExtra("idLastName");
-        TextView LastNameTextView = findViewById(R.id.textViewLastName);
+        TextView LastNameTextView = findViewById(R.id.me_profile_textViewLastName);
         LastNameTextView.setText(lastName);
 
         //Set that floating action button.

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".otherUserProfile">
+    tools:context=".meUserProfile">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -42,7 +42,7 @@
                 android:textSize="24sp" />
 
             <ImageView
-                android:id="@+id/profile_pic"
+                android:id="@+id/me_profile_pic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY" />
