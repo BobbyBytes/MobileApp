@@ -155,6 +155,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         }
+        //Hard coded venue locations. Will try to get locations from Firebase time permitting.
         LatLng Olympia_s = new LatLng(42.646445, -71.316650);
         LatLng Hearing_r = new LatLng(42.634200, -71.317904);
         LatLng Tsongas_c = new LatLng(42.650243, -71.313149);

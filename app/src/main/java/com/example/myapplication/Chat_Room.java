@@ -26,10 +26,11 @@ public class Chat_Room extends AppCompatActivity {
 
     //Used this youtube tutorial for the chat_room class //https://www.youtube.com/watch?v=wVCz1a3ogqk
 
+    //XML Vars
     private Button btn_send_msg;
     private EditText input_msg;
     private TextView chat_conversation;
-
+    //Vars
     private String user_name, room_name;
     private DatabaseReference root;
     private String temp_key;

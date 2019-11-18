@@ -15,7 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,6 +46,10 @@ public class messengerActivity extends AppCompatActivity {
     private ArrayList<String> list_of_rooms = new ArrayList<>();
     private String name;
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
+
+    //Firbase user Vars
+    private FirebaseAuth mAuth;
+    private FirebaseUser User;
 
 
     @Override
@@ -102,6 +109,9 @@ public class messengerActivity extends AppCompatActivity {
     }
 
     private void request_user_name() {
+        //Code commented out below gets a user name for the chat room.
+
+        /*
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Enter Name:");
 
@@ -123,6 +133,12 @@ public class messengerActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    */
+        mAuth = FirebaseAuth.getInstance();
+        User = mAuth.getCurrentUser();
+
+        name = User.getEmail();
+        Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
 
     }
 }
