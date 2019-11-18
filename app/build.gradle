@@ -38,5 +38,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
     implementation 'com.google.firebase:firebase-firestore:21.2.1'
     implementation 'com.android.support:multidex:1.0.3'
+    //Firebase stuff
+    implementation 'com.google.firebase:firebase-database:19.2.0'
+    implementation 'com.google.firebase:firebase-messaging:20.0.1'
+
 }
 apply plugin: 'com.google.gms.google-services'

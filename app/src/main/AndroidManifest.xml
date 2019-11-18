@@ -36,6 +36,7 @@
             android:name=".MapsActivity"
             android:label="map"></activity>
         <activity android:name=".messengerActivity" />
+        <activity android:name=".Chat_Room" />
         <activity
             android:name=".mapActivity"
             android:label="@string/title_activity_map"
