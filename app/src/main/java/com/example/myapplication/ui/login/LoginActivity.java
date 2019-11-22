@@ -38,6 +38,7 @@ import com.example.myapplication.MainContent;
 import com.example.myapplication.R;
 
 
+import com.example.myapplication.SelectArtistOrVenue;
 import com.example.myapplication.UserData;
 import com.example.myapplication.messengerActivity;
 import com.google.android.gms.common.ConnectionResult;
@@ -53,20 +54,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
-
-
-    //Coding with mitch
-    //https://www.youtube.com/watch?v=1f4b2-Y_q2A&list=PLgCYzUzKIBE-SZUrVOsbYMzH7tPigT3gi&index=4
     public static final int PERMISSIONS_REQUEST_ENABLE_GPS = 9002;
     public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 9003;
     public static final int ERROR_DIALOG_REQUEST = 9001;
     private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
-
-    //Coding with mitch
-    //https://www.youtube.com/watch?v=1f4b2-Y_q2A&list=PLgCYzUzKIBE-SZUrVOsbYMzH7tPigT3gi&index=4
     private boolean mLocationPermissionGranted = false;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -165,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
-        //Add signup button listener and try to create a new account
+        //Add signUP button listener and try to create a new account
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,11 +173,11 @@ public class LoginActivity extends AppCompatActivity {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d("MyTag", "createUserWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
-                                    //updateUI(user);
                                     //Create a user entry into out database
-                                    makeUserDatabaseEntry(usernameEditText.getText().toString());
-                                    loginViewModel.login(usernameEditText.getText().toString(),
-                                            passwordEditText.getText().toString());
+                                    CreateNewUserDBEntry(usernameEditText.getText().toString());
+
+//                                    loginViewModel.login(usernameEditText.getText().toString(),
+//                                            passwordEditText.getText().toString());
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w("MyTag", "createUserWithEmail:failure", task.getException());
@@ -199,7 +192,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //Add signup button listener and try to create a new account
+        //Add signIN button listener and try to create a new account
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,7 +208,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d("MyTag", "signin user :success");
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     //updateUI(user);
-                                    loginViewModel.login(usernameEditText.getText().toString(),
+                                   loginViewModel.login(usernameEditText.getText().toString(),
                                             passwordEditText.getText().toString());
 
                                 } else {
@@ -241,20 +234,30 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(refresh);
     }
 
-    private void updateUiWithUser(LoggedInUserView model) {
-
-        String welcome = "HI" + model.getDisplayName();
-        // TODO : initiate successful logged in experience
-        //Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this, MainContent.class);
+    private void goToSelectArtistOrVenue(UserData user){
+        String email = user.getEmailAddress();
+        Intent intent = new Intent();
+        intent.setClass(this, SelectArtistOrVenue.class);
+        intent.putExtra("idUserEmail",email);
         startActivity(intent);
     }
 
-    private void makeUserDatabaseEntry(String eMailAddress){
+    //This runs after a successful login or sign up.
+    private void updateUiWithUser(LoggedInUserView model) {
+        //
+        //Start main content (scrolling stuff) class.
+        Intent intent = new Intent(this, MainContent.class);
+        startActivity(intent);
+
+    }
+
+    private void CreateNewUserDBEntry(String eMailAddress){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         UserData mUser = new UserData();
         mUser.setEmailAddress(eMailAddress);
         db.collection("users").document(eMailAddress).set(mUser);
+        goToSelectArtistOrVenue(mUser);
+
     }
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
@@ -263,7 +266,6 @@ public class LoginActivity extends AppCompatActivity {
 
     ////Coding with mitch
     ////https://www.youtube.com/watch?v=1f4b2-Y_q2A&list=PLgCYzUzKIBE-SZUrVOsbYMzH7tPigT3gi&index=4
-    //Lines 171 - 270 Cam from the above coding tutorial.
     private boolean checkMapServices() {
         if (isServicesOK()) {
             if (isMapsEnabled()) {
