@@ -12,7 +12,7 @@
         android:layout_width="293dp"
         android:layout_height="62dp"
         android:layout_marginTop="45dp"
-        android:text="I'm a venue!"
+        android:text="@string/i_m_a_venue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
@@ -23,7 +23,7 @@
         android:layout_width="293dp"
         android:layout_height="62dp"
         android:layout_marginTop="45dp"
-        android:text="I'm an artist!"
+        android:text="@string/i_m_an_artist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Choose wisely, this cannot be undone... (For now)"
+        android:text="@string/choose_wisely_this_cannot_be_undone_for_now"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
