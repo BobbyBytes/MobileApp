@@ -34,12 +34,10 @@ public class UserData {
     private String ImagePath;
     private String EmailAddress;
     File localFile = null;
-    private Uri mImageUri;
     private Bitmap mBitmap;
-    private StorageReference mStorageRef;
-    private Bitmap bitmap;
-    private Boolean isWorking;
-    private Boolean dataRetrevialSuccess;
+    private boolean isArtist;
+
+    //Theese methods must remain public for firebase to identify them and add them to the database.
     public String getFirstName() {
         return FirstName;
     }
@@ -51,24 +49,33 @@ public class UserData {
     public String getNickname() {
         return Nickname;
     }
-    public String getEmailAddress(){
+
+    public String getEmailAddress() {
         return EmailAddress;
     }
+
     public String getImagePath() {
         return ImagePath;
     }
+
     public String getDescription() {
         return Description;
     }
-    public Bitmap getmBitmap(){
+
+    public Bitmap getmBitmap() {
         return mBitmap;
     }
 
+    public boolean getIsArtist() {
+        return isArtist;
+    }
+
+    //Setters
     public void setfirstName(String firstName) {
         FirstName = firstName;
     }
 
-    public void setEmailAddress(String emailAddress){
+    public void setEmailAddress(String emailAddress) {
         EmailAddress = emailAddress;
     }
 
@@ -88,10 +95,12 @@ public class UserData {
         ImagePath = imagePath;
     }
 
-    public void setmBitmap(Bitmap bitmap){
+    public void setmBitmap(Bitmap bitmap) {
         mBitmap = bitmap;
     }
 
-
+    public void setIsArtist(boolean Artist) {
+        isArtist = Artist;
+    }
 
 }
