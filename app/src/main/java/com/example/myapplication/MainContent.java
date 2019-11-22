@@ -37,23 +37,30 @@ import java.util.List;
 public class MainContent extends AppCompatActivity {
     List<UserData> mUserData = new ArrayList<>();
     Context context;
-
     private FirebaseAuth mAuth;
     // Create adapter and pass in the user data list
     final UsersAdapter adapter = new UsersAdapter(mUserData);
-
-    File localFile = null;
     Bitmap bitmap = null;
+    boolean isArtist;
+    String dataBaseCollectionPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_scroll_view);
+        final Context mContext = this.context;
+
         mAuth = FirebaseAuth.getInstance();
         //Create connection to DB
-
-        final Context mContext = this.context;
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Intent intent = getIntent();
+        intent.getBooleanExtra("idIsArtist", isArtist);
+        if (isArtist == true){
+            dataBaseCollectionPath = "users";
+        }
+        else {
+            dataBaseCollectionPath = "venues";
+        }
         //Create and write Write a user test
         UserData User1 = new UserData("User3", "From Code Behind", "App Created User3");
         User1.setEmailAddress("Neil_Armstrong");
@@ -77,7 +84,7 @@ public class MainContent extends AppCompatActivity {
         userListView.setAdapter(adapter);
 
         //Get the entire collection called "users" from firebase.
-        db.collection("users")
+        db.collection(dataBaseCollectionPath)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
