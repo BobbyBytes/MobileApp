@@ -56,10 +56,10 @@ public class MainContent extends AppCompatActivity {
         Intent intent = getIntent();
         intent.getBooleanExtra("idIsArtist", isArtist);
         if (isArtist == true){
-            dataBaseCollectionPath = "users";
+            dataBaseCollectionPath = "venues";
         }
         else {
-            dataBaseCollectionPath = "venues";
+            dataBaseCollectionPath = "users";
         }
         //Create and write Write a user test
         UserData User1 = new UserData("User3", "From Code Behind", "App Created User3");
