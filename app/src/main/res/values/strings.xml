@@ -15,5 +15,9 @@
     <string name="title_activity_map">mapActivity</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
+    <string name="hey_there">
+        Hey there! \n \n
+        Are you an artist looking for a venue, or are you a venue looking for artists?
+    </string>
 
 </resources>
