@@ -36,6 +36,9 @@ public class UserData {
     File localFile = null;
     private Bitmap mBitmap;
     private boolean isArtist;
+    private double averageRating;
+    private long numRatings;
+
 
     //Theese methods must remain public for firebase to identify them and add them to the database.
     public String getFirstName() {
@@ -70,6 +73,13 @@ public class UserData {
         return isArtist;
     }
 
+    public double getAvgRating(){
+        return averageRating;
+    }
+
+    public long getNumRatings(){
+        return numRatings;
+    }
     //Setters
     public void setfirstName(String firstName) {
         FirstName = firstName;
@@ -101,6 +111,11 @@ public class UserData {
 
     public void setIsArtist(boolean Artist) {
         isArtist = Artist;
+    }
+
+    public void AddRating(double rating){
+
+
     }
 
 }
