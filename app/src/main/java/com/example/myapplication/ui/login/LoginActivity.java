@@ -248,7 +248,6 @@ public class LoginActivity extends AppCompatActivity {
         //Start main content (scrolling stuff) class.
         Intent intent = new Intent(this, MainContent.class);
         startActivity(intent);
-
     }
 
     private void CreateNewUserDBEntry(String eMailAddress){
@@ -257,8 +256,8 @@ public class LoginActivity extends AppCompatActivity {
         mUser.setEmailAddress(eMailAddress);
         db.collection("users").document(eMailAddress).set(mUser);
         goToSelectArtistOrVenue(mUser);
-
     }
+
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }

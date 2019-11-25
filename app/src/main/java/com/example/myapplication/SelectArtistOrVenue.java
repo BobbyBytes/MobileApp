@@ -11,9 +11,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SelectArtistOrVenue extends AppCompatActivity {
-    private FirebaseAuth mAuth;
     private String eMailAddress;
-    private boolean isArtist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

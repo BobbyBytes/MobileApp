@@ -1,32 +1,20 @@
 package com.example.myapplication;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.firestore.auth.User;
-
 import java.util.List;
 
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
 
-    Context context;
-    // Provide a direct reference to each of the views within a data item
-    // Used to cache the views within the item layout for fast access
-
-
-
-    //Viewholder Definition
+    //View holder Definition
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
@@ -34,7 +22,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         public TextView lastNameTextView;
         public TextView nickNameTextView;
         public ImageView profilePicView;
-        public Button messageButton;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -43,13 +30,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             // to access the context from any ViewHolder instance.
             super(itemView);
 
-            firstNameTextView = (TextView) itemView.findViewById(R.id.myTextView1);
-            lastNameTextView = (TextView) itemView.findViewById((R.id.textView2));
-            nickNameTextView = (TextView) itemView.findViewById(R.id.textView3);
-            profilePicView = (ImageView) itemView.findViewById(R.id.MyProfilePic);
+            firstNameTextView = itemView.findViewById(R.id.myTextView1);
+            lastNameTextView = itemView.findViewById((R.id.textView2));
+            nickNameTextView = itemView.findViewById(R.id.textView3);
+            profilePicView = itemView.findViewById(R.id.MyProfilePic);
         }
     }
-
 
     // Store a member variable for the contacts
     private List<UserData> mUserData;
@@ -88,15 +74,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         nickNameTextView.setText((myUser.getNickname()));
         Bitmap bitmap = myUser.getmBitmap();
 
-
         picImageView.setImageBitmap(bitmap);
-
-
     }
-
-            //we can then create an intent here and start a new activity
-            //with our data
-
 
     // Returns the total count of items in the list
     @Override
