@@ -41,20 +41,21 @@ public class MainContent extends AppCompatActivity {
     // Create adapter and pass in the user data list
     final UsersAdapter adapter = new UsersAdapter(mUserData);
     Bitmap bitmap = null;
-    boolean isArtist;
     String dataBaseCollectionPath;
-
+    boolean isArtist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_scroll_view);
+        mUserData.clear();
         final Context mContext = this.context;
 
         mAuth = FirebaseAuth.getInstance();
         //Create connection to DB
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
-        intent.getBooleanExtra("idIsArtist", isArtist);
+
+        isArtist = intent.getBooleanExtra("idIsArtist", false);
         if (isArtist == true){
             dataBaseCollectionPath = "venues";
         }
@@ -76,6 +77,7 @@ public class MainContent extends AppCompatActivity {
 
         // Lookup the recycler view in activity layout
         RecyclerView userListView = (RecyclerView) findViewById(R.id.userListView);
+
 
 
         // Set layout manager to position the items
