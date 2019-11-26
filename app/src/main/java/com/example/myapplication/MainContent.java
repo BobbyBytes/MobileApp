@@ -133,7 +133,7 @@ public class MainContent extends AppCompatActivity {
         gotoUserIntent.putExtra("idNickName", nickName);
         gotoUserIntent.putExtra("idEmail", eMailAddr);
         //goto user profile
-        gotoUserIntent.setClass(this, otherUserProfile.class);
+        gotoUserIntent.setClass(this, OtherUserProfile.class);
         startActivity(gotoUserIntent);
     }
 
@@ -145,13 +145,13 @@ public class MainContent extends AppCompatActivity {
 
     public void viewInbox(View view) {
         Intent gotoInbox = new Intent();
-        gotoInbox.setClass(this, messengerActivity.class);
+        gotoInbox.setClass(this, MessengerActivity.class);
         startActivity(gotoInbox);
     }
 
     public void viewMyProfile(View view) {
         Intent gotoMyProfile = new Intent();
-        gotoMyProfile.setClass(this, meUserProfile.class);
+        gotoMyProfile.setClass(this, MeUserProfile.class);
         startActivity(gotoMyProfile);
     }
 

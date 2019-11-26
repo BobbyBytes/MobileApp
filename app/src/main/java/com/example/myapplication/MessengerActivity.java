@@ -34,7 +34,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class messengerActivity extends AppCompatActivity {
+public class MessengerActivity extends AppCompatActivity {
 
     //Used this youtube tutorial for the messangerActivty class //https://www.youtube.com/watch?v=wVCz1a3ogqk
 

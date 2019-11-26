@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".CreateUserProfile"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -31,27 +31,29 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".SelectArtistOrVenue"
+        <activity
+            android:name=".SelectArtistOrVenue"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MapsActivity"
             android:label="map" />
-        <activity android:name=".messengerActivity" />
+        <activity android:name=".MessengerActivity" />
         <activity android:name=".Chat_Room" />
         <activity
             android:name=".mapActivity"
             android:label="@string/title_activity_map"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".otherUserProfile"
+            android:name=".OtherUserProfile"
             android:label="@string/title_activity_user_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".meUserProfile"
+            android:name=".MeUserProfile"
             android:label="@string/title_activity_user_profile"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainContent"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".MainContent"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login">

@@ -33,14 +33,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myapplication.MainActivity;
 import com.example.myapplication.MainContent;
 import com.example.myapplication.R;
 
 
 import com.example.myapplication.SelectArtistOrVenue;
 import com.example.myapplication.UserData;
-import com.example.myapplication.messengerActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;

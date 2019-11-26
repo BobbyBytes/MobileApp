@@ -29,7 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
-public class otherUserProfile extends AppCompatActivity {
+public class OtherUserProfile extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth mAuth;
