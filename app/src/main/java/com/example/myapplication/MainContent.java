@@ -7,13 +7,10 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,7 +24,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,7 +52,7 @@ public class MainContent extends AppCompatActivity {
         Intent intent = getIntent();
 
         isArtist = intent.getBooleanExtra("idIsArtist", false);
-        if (isArtist == true){
+        if (isArtist){
             dataBaseCollectionPath = "venues";
         }
         else {
@@ -76,7 +72,7 @@ public class MainContent extends AppCompatActivity {
         });
 
         // Lookup the recycler view in activity layout
-        RecyclerView userListView = (RecyclerView) findViewById(R.id.userListView);
+        RecyclerView userListView = findViewById(R.id.userListView);
 
 
 
@@ -113,7 +109,6 @@ public class MainContent extends AppCompatActivity {
                     public void onItemClick(View view, int position) {
                         UserData mUser = mUserData.get(position);
                         CreateAndViewUserProfile(view, mUser);
-                        ;
                     }
 
                     @Override
@@ -125,15 +120,7 @@ public class MainContent extends AppCompatActivity {
     }
     //End OnCreate
 
-    private void AddToList(UserData UD) {
-        mUserData.add(UD);
-        adapter.notifyDataSetChanged();
-
-    }
-
     public void CreateAndViewUserProfile(View view, UserData userData) {
-        //goto user profile
-
 
         String firstName = userData.getFirstName();
         String lastName = userData.getLastName();
@@ -145,10 +132,9 @@ public class MainContent extends AppCompatActivity {
         gotoUserIntent.putExtra("idLastName", lastName);
         gotoUserIntent.putExtra("idNickName", nickName);
         gotoUserIntent.putExtra("idEmail", eMailAddr);
-
+        //goto user profile
         gotoUserIntent.setClass(this, otherUserProfile.class);
         startActivity(gotoUserIntent);
-
     }
 
     public void goToMapScreen(View view) {
@@ -174,6 +160,7 @@ public class MainContent extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference();
         int i = 0;
 
+        //For each user in the users list
         for (final UserData user : usersList)
         {
             try {
@@ -200,14 +187,12 @@ public class MainContent extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
                     // Handle failed download
-                    // ...
                     Log.d("MainContent", "Downloading image to main Content failed");
-                    //Set a default profile pic
-
+                    // TODO Set a default profile pic or something
                 }
             });
             i++;
-        }
+        }//End for loop
     }
 
 

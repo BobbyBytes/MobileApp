@@ -11,7 +11,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_user_profile"></string>
+    <string name="title_activity_user_profile" />
     <string name="title_activity_map">mapActivity</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
@@ -19,7 +19,7 @@
         Hey there! \n \n
         Are you an artist looking for a venue, or are you a venue looking for artists?
     </string>
-    <string name="choose_wisely_this_cannot_be_undone_for_now">Choose wisely, this cannot be undone... (For now)</string>
+    <string name="choose_wisely_this_cannot_be_undone_for_now">Choose wisely, this cannot be undone… (For now)</string>
     <string name="i_m_a_venue">I\'m a venue!</string>
     <string name="i_m_an_artist">I\'m an artist!</string>
 
