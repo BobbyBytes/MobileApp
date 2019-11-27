@@ -41,6 +41,7 @@ public class UserData {
     private boolean isArtist;
     private double averageRating;
     private long numRatings;
+    private String Loacation;
 
 
     //Theese methods must remain public for firebase to identify them and add them to the database.
