@@ -90,12 +90,15 @@ public class OtherUserProfile extends AppCompatActivity {
 
         //Grab the name string from the calling intent
 
-        String firstName = caller.getStringExtra("idFirstName");
+        String DisplayName = caller.getStringExtra("idDisplayName");
         TextView FirstNameTextView = findViewById(R.id.textViewFirstName);
-        FirstNameTextView.setText(firstName);
-        String lastName = caller.getStringExtra("idLastName");
+        FirstNameTextView.setText(DisplayName);
+        String genre = caller.getStringExtra("idGenre");
         TextView LastNameTextView = findViewById(R.id.textViewLastName);
-        LastNameTextView.setText(lastName);
+        LastNameTextView.setText(genre);
+        String bio = caller.getStringExtra("idBio");
+        TextView bioTextview = findViewById(R.id.bioTextView);
+        LastNameTextView.setText(bio);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

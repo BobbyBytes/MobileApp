@@ -18,9 +18,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        public TextView firstNameTextView;
-        public TextView lastNameTextView;
-        public TextView nickNameTextView;
+        public TextView DisplayNameTextView;
+        public TextView GenreTextView;
+        public TextView BioTextView;
         public ImageView profilePicView;
 
         // We also create a constructor that accepts the entire item row
@@ -30,9 +30,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             // to access the context from any ViewHolder instance.
             super(itemView);
 
-            firstNameTextView = itemView.findViewById(R.id.myTextView1);
-            lastNameTextView = itemView.findViewById((R.id.textView2));
-            nickNameTextView = itemView.findViewById(R.id.textView3);
+            DisplayNameTextView = itemView.findViewById(R.id.myTextView1);
+            GenreTextView = itemView.findViewById((R.id.textView2));
+            BioTextView = itemView.findViewById(R.id.textView3);
             profilePicView = itemView.findViewById(R.id.MyProfilePic);
         }
     }
@@ -64,14 +64,14 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         final UserData myUser = mUserData.get(position);
 
         // Set item views based on your views and data model
-        TextView firstNameTextView = viewHolder.firstNameTextView;
-        TextView lastNameTextView = viewHolder.lastNameTextView;
-        TextView nickNameTextView = viewHolder.nickNameTextView;
+        TextView DisplayNameTextView = viewHolder.DisplayNameTextView;
+        TextView GenreTextView = viewHolder.GenreTextView;
+        TextView BioTextView = viewHolder.BioTextView;
         ImageView picImageView = viewHolder.profilePicView;
 
-        firstNameTextView.setText(myUser.getFirstName());
-        lastNameTextView.setText((myUser.getLastName()));
-        nickNameTextView.setText((myUser.getNickname()));
+        DisplayNameTextView.setText(myUser.getDisplayName());
+        GenreTextView.setText((myUser.getGenre()));
+        BioTextView.setText((myUser.getbio()));
         Bitmap bitmap = myUser.getmBitmap();
 
         picImageView.setImageBitmap(bitmap);

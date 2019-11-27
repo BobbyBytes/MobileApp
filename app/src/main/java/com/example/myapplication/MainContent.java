@@ -122,15 +122,15 @@ public class MainContent extends AppCompatActivity {
 
     public void CreateAndViewUserProfile(View view, UserData userData) {
 
-        String firstName = userData.getFirstName();
-        String lastName = userData.getLastName();
-        String nickName = userData.getNickname();
+        String displayName = userData.getDisplayName();
+        String genre = userData.getGenre();
+        String bio = userData.getbio();
         String eMailAddr = userData.getEmailAddress();
 
         Intent gotoUserIntent = new Intent();
-        gotoUserIntent.putExtra("idFirstName", firstName);
-        gotoUserIntent.putExtra("idLastName", lastName);
-        gotoUserIntent.putExtra("idNickName", nickName);
+        gotoUserIntent.putExtra("idDisplayName", displayName);
+        gotoUserIntent.putExtra("idGenre", genre);
+        gotoUserIntent.putExtra("idBio", bio);
         gotoUserIntent.putExtra("idEmail", eMailAddr);
         //goto user profile
         gotoUserIntent.setClass(this, OtherUserProfile.class);

@@ -72,7 +72,7 @@ public class UserData {
         return mBitmap;
     }
 
-    public boolean getIsArtist() {
+    public boolean getisArtist() {
         return isArtist;
     }
 
@@ -88,7 +88,7 @@ public class UserData {
 
     public String getGenre(){ return Genre;}
 
-    public  String getBio () {return Bio;}
+    public  String getbio() {return Bio;}
     //Setters
     public void setfirstName(String firstName) {
         FirstName = firstName;
@@ -121,6 +121,12 @@ public class UserData {
     public void setIsArtist(boolean Artist) {
         isArtist = Artist;
     }
+
+    public void setDisplayName(String displayName) {DisplayName= displayName;}
+
+    public void setGenre(String genre){Genre = genre;}
+
+    public void setBio(String bio){Bio = bio;}
 
     public void AddRating(double rating){
 

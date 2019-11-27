@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -23,6 +25,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
+
 public class CreateArtistProfile extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
@@ -33,7 +37,7 @@ public class CreateArtistProfile extends AppCompatActivity {
     EditText mGenre;
     EditText mBio;
     Button mBtnUpload;
-
+    Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +74,11 @@ public class CreateArtistProfile extends AppCompatActivity {
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
             mImage.setImageURI(mImageUri);
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mImageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             //Upload the image to FBase here...
             // Create a storage reference from our app
@@ -118,6 +127,7 @@ public class CreateArtistProfile extends AppCompatActivity {
         Bio = mBio.getText().toString();
         UserData mUserArtist = new UserData(DisplayName, Genre, Bio);
         mUserArtist.setEmailAddress(eMailAddress);
+        mUserArtist.setmBitmap(bitmap);
         db.collection("users").document(eMailAddress).set(mUserArtist);
         goToMainContentActivity(mUserArtist);
     }
