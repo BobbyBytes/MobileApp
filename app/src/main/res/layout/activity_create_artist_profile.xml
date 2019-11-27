@@ -11,50 +11,50 @@
         android:layout_width="309dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Welcome new artist! "
+        android:text="@string/welcome_new_artist"
         android:textAlignment="center"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintBottom_toTopOf="@+id/artistDisplayNameUpload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.25" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/artistDisplayNameUpload"
         android:layout_width="374dp"
         android:layout_height="80dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Display Name"
-        app:layout_constraintBottom_toTopOf="@+id/editText2"
+        android:text="@string/display_name"
+        app:layout_constraintBottom_toTopOf="@+id/artistGenreUpload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.844" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/artistGenreUpload"
         android:layout_width="374dp"
         android:layout_height="80dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Genre"
-        app:layout_constraintBottom_toTopOf="@+id/editText4"
+        android:text="@string/genre"
+        app:layout_constraintBottom_toTopOf="@+id/artistBioUpload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.926" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/artistBioUpload"
         android:layout_width="376dp"
         android:layout_height="129dp"
         android:layout_marginBottom="10dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:text="Bio:"
+        android:text="@string/bio"
         app:layout_constraintBottom_toTopOf="@+id/textView9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,34 +62,34 @@
         app:layout_constraintVertical_bias="0.967" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/artistUploadPic"
         android:layout_width="175dp"
         android:layout_height="150dp"
         android:layout_marginBottom="52dp"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintBottom_toTopOf="@+id/btnCreateProfile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.99"
+        app:layout_constraintVertical_bias="0.996"
         tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload a profile picture."
-        app:layout_constraintBottom_toTopOf="@+id/imageButton"
+        android:text="@string/upload_a_profile_picture"
+        app:layout_constraintBottom_toTopOf="@+id/artistUploadPic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.969" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnCreateProfile"
         android:layout_width="243dp"
         android:layout_height="47dp"
         android:layout_marginBottom="24dp"
-        android:text="Create Profile!"
+        android:text="@string/create_profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

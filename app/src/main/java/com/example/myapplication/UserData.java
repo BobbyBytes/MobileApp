@@ -21,12 +21,15 @@ public class UserData {
     public UserData() {
     }
 
-    public UserData(String firstName, String lastName, String nickname) {
-        FirstName = firstName;
-        LastName = lastName;
-        Nickname = nickname;
+    public UserData(String DisplayNameIn, String genre, String bio) {
+        DisplayName = DisplayNameIn;
+        Genre = genre;
+        Bio = bio;
     }
 
+    private String DisplayName;
+    private String Genre;
+    private String Bio;
     private String FirstName;
     private String LastName;
     private String Nickname;
@@ -80,6 +83,12 @@ public class UserData {
     public long getNumRatings(){
         return numRatings;
     }
+
+    public String getDisplayName(){ return DisplayName;}
+
+    public String getGenre(){ return Genre;}
+
+    public  String getBio () {return Bio;}
     //Setters
     public void setfirstName(String firstName) {
         FirstName = firstName;

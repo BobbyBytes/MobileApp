@@ -21,20 +21,24 @@ public class SelectArtistOrVenue extends AppCompatActivity {
     }
 
     public void btnArtistClick(View view){
-        goToMainContent(true);
+        goToNewArtistActivity();
     }
 
     public void btnVenueClick(View view){
         goToMainContent( false);
     }
 
-    public void goToMainContent(boolean isArtist){
+    private void goToMainContent(boolean isArtist){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         UserData mUser = new UserData();
         mUser.setEmailAddress(eMailAddress);
         db.collection("users").document(eMailAddress).set(mUser);
         Intent intent = new Intent(this, MainContent.class);
         intent.putExtra("idIsArtist", isArtist);
+        startActivity(intent);
+    }
+    private void goToNewArtistActivity(){
+        Intent intent = new Intent(this, CreateArtistProfile.class);
         startActivity(intent);
     }
 }

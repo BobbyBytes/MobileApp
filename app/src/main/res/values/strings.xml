@@ -22,5 +22,11 @@
     <string name="choose_wisely_this_cannot_be_undone_for_now">Choose wisely, this cannot be undone… (For now)</string>
     <string name="i_m_a_venue">I\'m a venue!</string>
     <string name="i_m_an_artist">I\'m an artist!</string>
+    <string name="display_name">Display Name</string>
+    <string name="welcome_new_artist">Welcome new artist!</string>
+    <string name="genre">Genre</string>
+    <string name="bio">Bio:</string>
+    <string name="upload_a_profile_picture">Upload a profile picture.</string>
+    <string name="create_profile">Create Profile!</string>
 
 </resources>
