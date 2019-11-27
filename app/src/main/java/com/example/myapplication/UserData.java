@@ -41,7 +41,8 @@ public class UserData {
     private boolean isArtist;
     private double averageRating;
     private long numRatings;
-    private String Loacation;
+    private long[] LocationArray;
+
 
 
     //Theese methods must remain public for firebase to identify them and add them to the database.
@@ -90,6 +91,8 @@ public class UserData {
     public String getGenre(){ return Genre;}
 
     public  String getbio() {return Bio;}
+
+    public long[] getLocationArray(){return LocationArray;}
     //Setters
     public void setfirstName(String firstName) {
         FirstName = firstName;
@@ -129,9 +132,9 @@ public class UserData {
 
     public void setBio(String bio){Bio = bio;}
 
+    public void setLocationArray(long[] locationArray) {LocationArray = locationArray;}
+
     public void AddRating(double rating){
-
-
     }
 
 }

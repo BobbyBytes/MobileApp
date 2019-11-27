@@ -7,10 +7,12 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,6 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +42,7 @@ public class MainContent extends AppCompatActivity {
     Bitmap bitmap = null;
     String dataBaseCollectionPath;
     boolean isArtist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +56,9 @@ public class MainContent extends AppCompatActivity {
         Intent intent = getIntent();
 
         isArtist = intent.getBooleanExtra("idIsArtist", false);
-        if (isArtist){
+        if (isArtist) {
             dataBaseCollectionPath = "venues";
-        }
-        else {
+        } else {
             dataBaseCollectionPath = "users";
         }
         //Create and write Write a user test
@@ -73,8 +76,6 @@ public class MainContent extends AppCompatActivity {
 
         // Lookup the recycler view in activity layout
         RecyclerView userListView = findViewById(R.id.userListView);
-
-
 
         // Set layout manager to position the items
         userListView.setLayoutManager(new LinearLayoutManager(this));
@@ -100,7 +101,7 @@ public class MainContent extends AppCompatActivity {
                         }
                     }
                 });
-        
+
 
         //Add the on click listener to the recycler view.
         userListView.addOnItemTouchListener(
@@ -159,12 +160,10 @@ public class MainContent extends AppCompatActivity {
         StorageReference mStorageRef;
         mStorageRef = FirebaseStorage.getInstance().getReference();
         int i = 0;
-
         //For each user in the users list
-        for (final UserData user : usersList)
-        {
+        for (final UserData user : usersList) {
             try {
-               user.localFile  = File.createTempFile("image" + i, "jpg");
+                user.localFile = File.createTempFile("image" + i, "jpg");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -175,8 +174,6 @@ public class MainContent extends AppCompatActivity {
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                             // Successfully downloaded data to local file
                             // Now set the image(bitmap) to the view
-
-
                             String filePath = user.localFile.getAbsolutePath();
                             bitmap = BitmapFactory.decodeFile(filePath);
                             user.setmBitmap(bitmap);

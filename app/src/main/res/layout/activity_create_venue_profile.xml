@@ -4,69 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateArtistProfile">
+    tools:context=".CreateVenueProfile">
+
 
     <TextView
-        android:id="@+id/artistWelcomeText"
+        android:id="@+id/venueWelcomeText"
         android:layout_width="309dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/welcome_new_artist"
+        android:text="@string/welcome_new_venue"
         android:textAlignment="center"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/artistDisplayNameUpload"
+        app:layout_constraintBottom_toTopOf="@+id/venueDisplayNameUpload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.25" />
 
     <EditText
-        android:id="@+id/artistDisplayNameUpload"
+        android:id="@+id/venueDisplayNameUpload"
         android:layout_width="374dp"
         android:layout_height="80dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="@string/display_name"
-        app:layout_constraintBottom_toTopOf="@+id/artistGenreUpload"
+        app:layout_constraintBottom_toTopOf="@+id/venueLocationUpload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.844" />
 
     <EditText
-        android:id="@+id/artistGenreUpload"
+        android:id="@+id/venueLocationUpload"
         android:layout_width="374dp"
         android:layout_height="80dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/genre"
-        app:layout_constraintBottom_toTopOf="@+id/artistBioUpload"
+        android:text="@string/location"
+        app:layout_constraintBottom_toTopOf="@id/venueAboutUpload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.926" />
 
     <EditText
-        android:id="@+id/artistBioUpload"
+        android:id="@+id/venueAboutUpload"
         android:layout_width="376dp"
         android:layout_height="129dp"
         android:layout_marginBottom="10dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:text="@string/bio"
-        app:layout_constraintBottom_toTopOf="@+id/textView9"
+        android:text="@string/about_your_venue"
+        app:layout_constraintBottom_toTopOf="@+id/venueUploadText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.967" />
 
     <ImageButton
-        android:id="@+id/artistUploadPic"
+        android:id="@+id/venueUploadPic"
         android:layout_width="175dp"
         android:layout_height="150dp"
         android:layout_marginBottom="52dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnCreateProfile"
+        app:layout_constraintBottom_toTopOf="@+id/btnVenueCreateProfile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -74,18 +75,18 @@
         tools:src="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/venueUploadText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/upload_a_profile_picture"
-        app:layout_constraintBottom_toTopOf="@+id/artistUploadPic"
+        app:layout_constraintBottom_toTopOf="@+id/venueUploadPic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.969" />
 
     <Button
-        android:id="@+id/btnCreateProfile"
+        android:id="@+id/btnVenueCreateProfile"
         android:layout_width="243dp"
         android:layout_height="47dp"
         android:layout_marginBottom="24dp"
@@ -95,5 +96,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.985" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

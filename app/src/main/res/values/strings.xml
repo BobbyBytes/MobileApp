@@ -28,5 +28,8 @@
     <string name="bio">Bio:</string>
     <string name="upload_a_profile_picture">Upload a profile picture.</string>
     <string name="create_profile">Create Profile!</string>
+    <string name="welcome_new_venue">Welcome new venue!</string>
+    <string name="location">Location</string>
+    <string name="about_your_venue">About your venue</string>
 
 </resources>
