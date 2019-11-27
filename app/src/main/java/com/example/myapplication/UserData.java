@@ -1,20 +1,8 @@
 package com.example.myapplication;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
+import android.location.Location;
 import java.io.File;
-import java.io.IOException;
 
 public class UserData {
 
@@ -37,13 +25,20 @@ public class UserData {
     private String ImagePath;
     private String EmailAddress;
     File localFile = null;
-    private Bitmap mBitmap;
     private boolean isArtist;
     private double averageRating;
     private long numRatings;
-    private long[] LocationArray;
+    private Location location;
 
 
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
     //Theese methods must remain public for firebase to identify them and add them to the database.
     public String getFirstName() {
@@ -70,10 +65,6 @@ public class UserData {
         return Description;
     }
 
-    public Bitmap getmBitmap() {
-        return mBitmap;
-    }
-
     public boolean getisArtist() {
         return isArtist;
     }
@@ -92,7 +83,6 @@ public class UserData {
 
     public  String getbio() {return Bio;}
 
-    public long[] getLocationArray(){return LocationArray;}
     //Setters
     public void setfirstName(String firstName) {
         FirstName = firstName;
@@ -118,9 +108,6 @@ public class UserData {
         ImagePath = imagePath;
     }
 
-    public void setmBitmap(Bitmap bitmap) {
-        mBitmap = bitmap;
-    }
 
     public void setIsArtist(boolean Artist) {
         isArtist = Artist;
@@ -131,8 +118,6 @@ public class UserData {
     public void setGenre(String genre){Genre = genre;}
 
     public void setBio(String bio){Bio = bio;}
-
-    public void setLocationArray(long[] locationArray) {LocationArray = locationArray;}
 
     public void AddRating(double rating){
     }
