@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 
@@ -27,6 +28,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -91,8 +93,9 @@ public class MainContent extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("TAG", document.getId() + " => " + document.getData());
-                                UserData Doc_From_DB = document.toObject(UserData.class);
-                                mUserData.add(Doc_From_DB);
+                                UserData userDataFromDB = document.toObject(UserData.class);
+
+                                mUserData.add(userDataFromDB);
                             }
                             getImagesForProfilesFromList(mUserData);
                             adapter.notifyDataSetChanged();
@@ -176,7 +179,12 @@ public class MainContent extends AppCompatActivity {
                             // Now set the image(bitmap) to the view
                             String filePath = user.localFile.getAbsolutePath();
                             bitmap = BitmapFactory.decodeFile(filePath);
-                            user.setmBitmap(bitmap);
+
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+                            byte[] b = baos.toByteArray();
+                            String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                            user.setImageString(encodedImage);
                             Log.d("MainContent", "User bitmap added");
 
                         }

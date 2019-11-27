@@ -2,6 +2,8 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,9 +74,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         DisplayNameTextView.setText(myUser.getDisplayName());
         GenreTextView.setText((myUser.getGenre()));
         BioTextView.setText((myUser.getbio()));
-        Bitmap bitmap = myUser.getmBitmap();
+        String imageString = myUser.getImageString();
+        if (imageString != null){
+            byte[] decodedString = Base64.decode(imageString, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-        picImageView.setImageBitmap(bitmap);
+            picImageView.setImageBitmap(decodedByte);
+        }
     }
 
     // Returns the total count of items in the list

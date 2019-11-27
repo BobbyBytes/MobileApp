@@ -29,8 +29,15 @@ public class UserData {
     private double averageRating;
     private long numRatings;
     private Location location;
+    private String ImageString;
 
+    public String getImageString() {
+        return ImageString;
+    }
 
+    public void setImageString(String imageString) {
+        ImageString = imageString;
+    }
 
     public Location getLocation() {
         return location;

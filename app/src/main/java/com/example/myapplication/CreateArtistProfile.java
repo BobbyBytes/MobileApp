@@ -127,7 +127,6 @@ public class CreateArtistProfile extends AppCompatActivity {
         Bio = mBio.getText().toString();
         UserData mUserArtist = new UserData(DisplayName, Genre, Bio);
         mUserArtist.setEmailAddress(eMailAddress);
-        mUserArtist.setmBitmap(bitmap);
         db.collection("users").document(eMailAddress).set(mUserArtist);
         goToMainContentActivity(mUserArtist);
     }
