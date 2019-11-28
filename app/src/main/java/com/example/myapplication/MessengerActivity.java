@@ -68,8 +68,8 @@ public class MessengerActivity extends AppCompatActivity {
         add_room.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String,Object> map = new HashMap<String, Object>();
-                map.put(room_name.getText().toString(),"");
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put(room_name.getText().toString(), "");
                 root.updateChildren(map);
             }
         });
@@ -79,8 +79,8 @@ public class MessengerActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Set<String> set = new HashSet<String>();
                 Iterator i = dataSnapshot.getChildren().iterator();
-                while (i.hasNext()){
-                    set.add(((DataSnapshot)i.next()).getKey());
+                while (i.hasNext()) {
+                    set.add(((DataSnapshot) i.next()).getKey());
                 }
                 list_of_rooms.clear();
                 list_of_rooms.addAll(set);
@@ -98,9 +98,9 @@ public class MessengerActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Intent intent = new Intent(getApplicationContext(),Chat_Room.class);
-                intent.putExtra("room_name",((TextView)view).getText().toString() );
-                intent.putExtra("user_name",name);
+                Intent intent = new Intent(getApplicationContext(), Chat_Room.class);
+                intent.putExtra("room_name", ((TextView) view).getText().toString());
+                intent.putExtra("user_name", name);
                 startActivity(intent);
             }
         });
@@ -139,6 +139,5 @@ public class MessengerActivity extends AppCompatActivity {
 
         name = User.getEmail();
         Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
-
     }
 }
