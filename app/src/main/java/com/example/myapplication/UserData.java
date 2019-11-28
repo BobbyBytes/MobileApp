@@ -29,7 +29,16 @@ public class UserData {
     private double averageRating;
     private long numRatings;
     private Location location;
+    private String locationString;
     private String ImageString;
+
+    public String getLocationString() {
+        return locationString;
+    }
+
+    public void setLocationString(String locationString) {
+        this.locationString = locationString;
+    }
 
     public String getImageString() {
         return ImageString;
