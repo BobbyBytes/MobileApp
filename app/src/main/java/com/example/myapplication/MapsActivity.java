@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +26,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;        //Needed to update the build gradle for this libary to work:
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.util.List;
+import java.util.Locale;
 // implementation 'com.google.android.gms:play-services-location:17.0.0'
 
 
@@ -38,6 +43,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String TAG = "MAPSACTIVITY";
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private static final float DEFAULT_ZOOM = 12.5f;
+    public String temp;
 
 
     @Override
@@ -123,6 +129,74 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 //Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
+
+
+    public String get_addr_String_wrapper(){
+        Log.d(TAG, "getDeviceLocation: getting the device's current location");
+
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        try {
+            if(mLOcationPermissionGranted){
+                Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if(task.isSuccessful()){
+                            Log.d(TAG, "onComplete: found location");
+                            Location curentLocation = (Location) task.getResult();
+                            temp = getCompleteAddressString(curentLocation.getLatitude(), curentLocation.getLongitude());
+
+                        } else {
+                            Log.d(TAG, "onComp  lete: current location is null");
+                            Toast.makeText(MapsActivity.this, "unbal to get current location", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e){
+            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
+        }
+        return temp;
+
+    }
+
+
+    //https://stackoverflow.com/questions/9409195/how-to-get-complete-address-from-latitude-and-longitude
+    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+            if (addresses != null) {
+
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
+
+                String city = addresses.get(0).getLocality();
+                strReturnedAddress.append(city).append("\n");
+                String state = addresses.get(0).getAdminArea();
+                strReturnedAddress.append(state).append("\n");
+
+                /*
+                for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+                }
+                */
+
+                strAdd = strReturnedAddress.toString();
+                Log.w("My Current loction", strReturnedAddress.toString());
+            } else {
+                Log.w("My Current loction", "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w("My Current loction", "Canont get Address!");
+        }
+        return strAdd;
+    }
+
+
 
 
     @Override
