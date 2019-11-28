@@ -6,15 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,7 +30,23 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.location.FusedLocationProviderClient;        //Needed to update the build gradle for this libary to work:
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+
+
+
 import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class CreateArtistProfile extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -38,6 +59,12 @@ public class CreateArtistProfile extends AppCompatActivity {
     EditText mBio;
     Button mBtnUpload;
     Bitmap bitmap;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+    private Boolean mLOcationPermissionGranted = false;
+    public String temp;
+    private static final String TAG = "createprofile";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +91,75 @@ public class CreateArtistProfile extends AppCompatActivity {
             }
         });
     }
+
+
+    //Modified method from the maps activity.
+    public String get_addr_String_wrapper(){
+        Log.d(TAG, "getDeviceLocation: getting the device's current location");
+
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        try {
+            if(mLOcationPermissionGranted){
+                Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if(task.isSuccessful()){
+                            Log.d(TAG, "onComplete: found location");
+                            Location curentLocation = (Location) task.getResult();
+                            temp = getCompleteAddressString(curentLocation.getLatitude(), curentLocation.getLongitude());
+
+                        } else {
+                            Log.d(TAG, "onComp  lete: current location is null");
+                            Toast.makeText(CreateArtistProfile.this, "unbal to get current location", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e){
+            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
+        }
+        return temp;
+
+    }
+
+
+    //https://stackoverflow.com/questions/9409195/how-to-get-complete-address-from-latitude-and-longitude
+    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+            if (addresses != null) {
+
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
+
+                String city = addresses.get(0).getLocality();
+                strReturnedAddress.append(city).append("\n");
+                String state = addresses.get(0).getAdminArea();
+                strReturnedAddress.append(state).append("\n");
+
+                /*
+                for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+                }
+                */
+
+                strAdd = strReturnedAddress.toString();
+                Log.w("My Current loction", strReturnedAddress.toString());
+            } else {
+                Log.w("My Current loction", "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w("My Current loction", "Canont get Address!");
+        }
+        return strAdd;
+    }
+
+
 
     //After choosing a picture from the file chooser.
     @Override
@@ -128,6 +224,7 @@ public class CreateArtistProfile extends AppCompatActivity {
         UserData mUserArtist = new UserData(DisplayName, Genre, Bio);
         mUserArtist.setEmailAddress(eMailAddress);
         db.collection("users").document(eMailAddress).set(mUserArtist);
+
         goToMainContentActivity(mUserArtist);
     }
 
