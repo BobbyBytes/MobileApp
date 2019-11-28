@@ -63,10 +63,11 @@ public class CreateVenueProfile extends AppCompatActivity {
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-
+    public String temp1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getLocationPermission();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_venue_profile);
         mAuth = FirebaseAuth.getInstance();
@@ -76,6 +77,11 @@ public class CreateVenueProfile extends AppCompatActivity {
         mLoacation = findViewById(R.id.venueLocationUpload);
         mVenueAbout = findViewById(R.id.venueAboutUpload);
         mVenueBtnUpload = findViewById(R.id.btnVenueCreateProfile);
+
+        ////brute force getting the location.
+        for(int i = 0; i < 10; i++) {
+            temp1 = get_addr_String_wrapper();
+        }
         //Set on click to open file chooser for a profile pic.
         mImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +96,7 @@ public class CreateVenueProfile extends AppCompatActivity {
                 uploadProfile();
             }
         });
+
     }
 
 
@@ -137,8 +144,6 @@ public class CreateVenueProfile extends AppCompatActivity {
         }
     }
 
-
-
     //Modified method from the maps activity.
     public String get_addr_String_wrapper(){
         Log.d(TAG, "getDeviceLocation: getting the device's current location");
@@ -167,9 +172,7 @@ public class CreateVenueProfile extends AppCompatActivity {
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
         }
         return temp;
-
     }
-
 
     //https://stackoverflow.com/questions/9409195/how-to-get-complete-address-from-latitude-and-longitude
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
@@ -181,17 +184,17 @@ public class CreateVenueProfile extends AppCompatActivity {
 
                 Address returnedAddress = addresses.get(0);
                 StringBuilder strReturnedAddress = new StringBuilder("");
-
+                /*
                 String city = addresses.get(0).getLocality();
                 strReturnedAddress.append(city).append("\n");
                 String state = addresses.get(0).getAdminArea();
                 strReturnedAddress.append(state).append("\n");
+                */
 
-                /*
                 for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
                 }
-                */
+
 
                 strAdd = strReturnedAddress.toString();
                 Log.w("My Current loction", strReturnedAddress.toString());
@@ -204,9 +207,6 @@ public class CreateVenueProfile extends AppCompatActivity {
         }
         return strAdd;
     }
-
-
-
 
 
 
@@ -272,6 +272,7 @@ public class CreateVenueProfile extends AppCompatActivity {
         Bio = mVenueAbout.getText().toString();
         UserData mUserArtist = new UserData(DisplayName, Genre, Bio);
         mUserArtist.setEmailAddress(eMailAddress);
+        mUserArtist.setLocationString(get_addr_String_wrapper());
         db.collection("venues").document(eMailAddress).set(mUserArtist);
         goToMainContentActivity();
     }

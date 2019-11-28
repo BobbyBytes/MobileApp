@@ -35,17 +35,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;        //Needed to update the build gradle for this libary to work:
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-
-
 
 
 import java.io.IOException;
@@ -88,6 +80,12 @@ public class CreateArtistProfile extends AppCompatActivity {
         mGenre = findViewById(R.id.artistGenreUpload);
         mBio = findViewById(R.id.artistBioUpload);
         mBtnUpload = findViewById(R.id.btnCreateProfile);
+
+        ////brute force getting the location.
+        for(int i = 0; i < 10; i++) {
+            temp1 = get_addr_String_wrapper();
+        }
+
         //Set on click to open file chooser for a profile pic.
         mImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,18 +94,13 @@ public class CreateArtistProfile extends AppCompatActivity {
             }
         });
 
+
         mBtnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 uploadProfile();
             }
         });
-        get_addr_String_wrapper();
-
-
-            temp1 = get_addr_String_wrapper();
-
-        Toast.makeText(this, temp1, Toast.LENGTH_SHORT).show();
 
     }
 

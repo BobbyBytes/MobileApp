@@ -232,7 +232,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng Olympia_s = new LatLng(42.646445, -71.316650);
         LatLng Hearing_r = new LatLng(42.634200, -71.317904);
         LatLng Tsongas_c = new LatLng(42.650243, -71.313149);
-        String test = get_addr_String_wrapper();
+        //String test = get_addr_String_wrapper();
 
         mMap.addMarker(new MarkerOptions().position(Olympia_s).title("Olympia's Zorba Music Hall"));
         mMap.addMarker(new MarkerOptions().position(Hearing_r).title("The Hearing Room"));
@@ -240,7 +240,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-        Toast.makeText(this, test, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Map Ready", Toast.LENGTH_SHORT).show();
     }
 
 
