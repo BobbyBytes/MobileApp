@@ -99,7 +99,6 @@ public class OtherUserProfile extends AppCompatActivity {
         String bio = caller.getStringExtra("idBio");
         TextView bioTextview = findViewById(R.id.bioTextView);
         LastNameTextView.setText(bio);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
