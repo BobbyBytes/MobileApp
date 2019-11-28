@@ -3,11 +3,13 @@ package com.example.myapplication;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.ResultReceiver;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -32,7 +34,10 @@ import java.util.Locale;
 // implementation 'com.google.android.gms:play-services-location:17.0.0'
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
+{
+    //used to store longitude and latitude to construct addresses.
+
 
     //Class Vars
     private GoogleMap mMap;
@@ -43,7 +48,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String TAG = "MAPSACTIVITY";
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private static final float DEFAULT_ZOOM = 12.5f;
-    public String temp;
+    private static double [] arrhelper = new double[2];
+    public static String temp;
 
 
     @Override
@@ -78,7 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         } else {
                             Log.d(TAG, "onComp  lete: current location is null");
-                            Toast.makeText(MapsActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MapsActivity.this, "unbal to get current location", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -86,7 +92,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (SecurityException e){
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
         }
+
     }
+
+
+
 
     private void moveCamera(LatLng latLng, float zoom){
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
@@ -94,16 +104,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
 
     //Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
 
@@ -129,6 +129,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 //Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mLOcationPermissionGranted = false;
+
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < grantResults.length; i++) {
+                        if(grantResults[0] != PackageManager.PERMISSION_GRANTED)
+                            mLOcationPermissionGranted = false;
+                        return;
+                    }
+                }
+                mLOcationPermissionGranted = true;
+            }
+        }
+    }
 
 
     public String get_addr_String_wrapper(){
@@ -198,26 +218,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        mLOcationPermissionGranted = false;
-
-        switch (requestCode) {
-            case LOCATION_PERMISSION_REQUEST_CODE: {
-                if (grantResults.length > 0) {
-                    for (int i = 0; i < grantResults.length; i++) {
-                        if(grantResults[0] != PackageManager.PERMISSION_GRANTED)
-                            mLOcationPermissionGranted = false;
-                        return;
-                    }
-                }
-                mLOcationPermissionGranted = true;
-            }
-        }
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -227,13 +227,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
             //mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
-
         }
         //Hard coded venue locations. Will try to get locations from Firebase time permitting.
         LatLng Olympia_s = new LatLng(42.646445, -71.316650);
         LatLng Hearing_r = new LatLng(42.634200, -71.317904);
         LatLng Tsongas_c = new LatLng(42.650243, -71.313149);
-
+        String test = get_addr_String_wrapper();
 
         mMap.addMarker(new MarkerOptions().position(Olympia_s).title("Olympia's Zorba Music Hall"));
         mMap.addMarker(new MarkerOptions().position(Hearing_r).title("The Hearing Room"));
@@ -241,7 +240,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-        Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, test, Toast.LENGTH_SHORT).show();
     }
 
 

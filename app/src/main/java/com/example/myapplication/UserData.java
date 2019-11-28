@@ -30,6 +30,18 @@ public class UserData {
     private long numRatings;
     private Location location;
     private String ImageString;
+    private String locationString;
+
+
+
+    public String getLocationString() {
+        return locationString;
+    }
+
+    public void setLocationString(String locationString) {
+        this.locationString = locationString;
+    }
+
 
     public String getImageString() {
         return ImageString;

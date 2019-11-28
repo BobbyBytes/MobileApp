@@ -2,9 +2,13 @@ package com.example.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
@@ -62,11 +66,19 @@ public class CreateArtistProfile extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Boolean mLOcationPermissionGranted = false;
     public String temp;
+    public String temp1;
     private static final String TAG = "createprofile";
+    //Class Vars
+
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getLocationPermission();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_artist_profile);
         mAuth = FirebaseAuth.getInstance();
@@ -90,7 +102,60 @@ public class CreateArtistProfile extends AppCompatActivity {
                 uploadProfile();
             }
         });
+        get_addr_String_wrapper();
+
+
+            temp1 = get_addr_String_wrapper();
+
+        Toast.makeText(this, temp1, Toast.LENGTH_SHORT).show();
+
     }
+
+
+//Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
+
+    private void getLocationPermission() {
+
+        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION};
+
+        if(ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            if(ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                    COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                mLOcationPermissionGranted = true;
+            }else{
+                ActivityCompat.requestPermissions(this,
+                        permissions,
+                        LOCATION_PERMISSION_REQUEST_CODE);
+            }
+        }else{
+            ActivityCompat.requestPermissions(this,
+                    permissions,
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+//Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mLOcationPermissionGranted = false;
+
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < grantResults.length; i++) {
+                        if(grantResults[0] != PackageManager.PERMISSION_GRANTED)
+                            mLOcationPermissionGranted = false;
+                        return;
+                    }
+                }
+                mLOcationPermissionGranted = true;
+            }
+        }
+    }
+
 
 
     //Modified method from the maps activity.
@@ -223,6 +288,7 @@ public class CreateArtistProfile extends AppCompatActivity {
         Bio = mBio.getText().toString();
         UserData mUserArtist = new UserData(DisplayName, Genre, Bio);
         mUserArtist.setEmailAddress(eMailAddress);
+        mUserArtist.setLocationString(get_addr_String_wrapper());
         db.collection("users").document(eMailAddress).set(mUserArtist);
 
         goToMainContentActivity(mUserArtist);
