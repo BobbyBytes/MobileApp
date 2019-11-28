@@ -11,7 +11,8 @@
       android:id="@+id/MyProfilePic"
       android:layout_width="70dp"
       android:layout_height="70dp"
-      android:contentDescription="Profile Pic" />
+      android:contentDescription="Profile Pic"
+      android:scaleType="fitXY" />
 
   <LinearLayout
       android:layout_width="wrap_content"

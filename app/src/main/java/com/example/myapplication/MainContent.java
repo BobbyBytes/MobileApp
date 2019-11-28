@@ -19,8 +19,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -68,13 +66,6 @@ public class MainContent extends AppCompatActivity {
         User1.setEmailAddress("Neil_Armstrong");
         db.collection("users").document("User4").set(User1);
         Log.d("MainContent", "set user to DB ");
-        DocumentReference docRef = db.collection("users").document("User3");
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                UserData mydata = documentSnapshot.toObject(UserData.class);
-            }
-        });
 
         // Lookup the recycler view in activity layout
         RecyclerView userListView = findViewById(R.id.userListView);
@@ -117,7 +108,7 @@ public class MainContent extends AppCompatActivity {
 
                     @Override
                     public void onLongItemClick(View view, int position) {
-                        // do whatever
+                        // do whatever on looongg click
                     }
                 })
         );
