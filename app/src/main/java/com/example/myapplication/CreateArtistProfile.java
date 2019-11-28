@@ -215,14 +215,17 @@ public class CreateArtistProfile extends AppCompatActivity {
     private void uploadProfile() {
         String eMailAddress = User.getEmail();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         String DisplayName;
         String Genre;
         String Bio;
+
         DisplayName = mDisplayName.getText().toString();
         Genre = mGenre.getText().toString();
         Bio = mBio.getText().toString();
         UserData mUserArtist = new UserData(DisplayName, Genre, Bio);
         mUserArtist.setEmailAddress(eMailAddress);
+        mUserArtist.setLocationString(get_addr_String_wrapper());
         db.collection("users").document(eMailAddress).set(mUserArtist);
 
         goToMainContentActivity(mUserArtist);
