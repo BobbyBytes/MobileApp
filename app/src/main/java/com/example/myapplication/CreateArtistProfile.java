@@ -55,6 +55,8 @@ public class CreateArtistProfile extends AppCompatActivity {
     EditText mBio;
     Button mBtnUpload;
     Bitmap bitmap;
+
+    //Reused class vars from Maps activity
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Boolean mLOcationPermissionGranted = false;
     public String temp;
@@ -106,7 +108,6 @@ public class CreateArtistProfile extends AppCompatActivity {
 
 
 //Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
-
     private void getLocationPermission() {
 
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
@@ -129,7 +130,6 @@ public class CreateArtistProfile extends AppCompatActivity {
         }
     }
 //Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -151,7 +151,8 @@ public class CreateArtistProfile extends AppCompatActivity {
 
 
 
-    //Modified method from the maps activity.
+    //Modified method from the maps activity. This method gets permission before a string with
+    //the users information
     public String get_addr_String_wrapper(){
         Log.d(TAG, "getDeviceLocation: getting the device's current location");
 
@@ -184,6 +185,7 @@ public class CreateArtistProfile extends AppCompatActivity {
 
 
     //https://stackoverflow.com/questions/9409195/how-to-get-complete-address-from-latitude-and-longitude
+   //
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
         String strAdd = "";
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());

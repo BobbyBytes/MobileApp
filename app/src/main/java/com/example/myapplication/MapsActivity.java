@@ -97,7 +97,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-
+    //
     private void moveCamera(LatLng latLng, float zoom){
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
@@ -106,7 +106,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     //Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
-
     private void getLocationPermission() {
 
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
@@ -129,8 +128,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 //Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -183,10 +180,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     //https://stackoverflow.com/questions/9409195/how-to-get-complete-address-from-latitude-and-longitude
+    //Used source above to understand the geocoder
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
         String strAdd = "";
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         try {
+
+            //A list of locations is returned from the geocoder.
             List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
             if (addresses != null) {
 
@@ -198,6 +198,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String state = addresses.get(0).getAdminArea();
                 strReturnedAddress.append(state).append("\n");
 
+                //Used to get full address.
                 /*
                 for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
