@@ -28,7 +28,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;        //Needed to update the build gradle for this libary to work:
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.FirebaseAuth;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 // implementation 'com.google.android.gms:play-services-location:17.0.0'
@@ -37,7 +44,6 @@ import java.util.Locale;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 {
     //used to store longitude and latitude to construct addresses.
-
 
     //Class Vars
     private GoogleMap mMap;
@@ -48,9 +54,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String TAG = "MAPSACTIVITY";
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private static final float DEFAULT_ZOOM = 12.5f;
-    private static double [] arrhelper = new double[2];
     public static String temp;
+    public static String name = "";
+    public Location loc;
+    public String temp1 = "";
+    //Firebase connection
 
+    //Create connection to DB
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    Intent intent = getIntent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +107,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
-
-
+    //
     private void moveCamera(LatLng latLng, float zoom){
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
@@ -106,7 +116,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     //Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
-
     private void getLocationPermission() {
 
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
@@ -129,8 +138,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 //Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -183,10 +190,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     //https://stackoverflow.com/questions/9409195/how-to-get-complete-address-from-latitude-and-longitude
+    //Used source above to understand the geocoder
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
         String strAdd = "";
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         try {
+
+            //A list of locations is returned from the geocoder.
             List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
             if (addresses != null) {
 
@@ -198,6 +208,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String state = addresses.get(0).getAdminArea();
                 strReturnedAddress.append(state).append("\n");
 
+                //Used to get full address.
                 /*
                 for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
@@ -220,24 +231,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        //Hard coded venue locations. Will try to get locations from Firebase time permitting.
+
+
+            //Ran out of time trying to get location object from database with coordinates. Was able to get name of location.
+            DocumentReference docRef = db.collection("venues").document("user12@g.com");
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                                name = (String) document.get("displayName");
+
+                            Log.d(TAG, "Doccument exists");
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
+
         mMap = googleMap;
 
         if(mLOcationPermissionGranted){
             getDeviceLocation();
+
             mMap.setMyLocationEnabled(true);
             //mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         }
-        //Hard coded venue locations. Will try to get locations from Firebase time permitting.
+
+
+        //These should eventually be initialized with Location object from the database
         LatLng Olympia_s = new LatLng(42.646445, -71.316650);
         LatLng Hearing_r = new LatLng(42.634200, -71.317904);
-        LatLng Tsongas_c = new LatLng(42.650243, -71.313149);
-        //String test = get_addr_String_wrapper();
+        LatLng Tsongas_c = new LatLng(42.6502, -71.3132);
+
 
         mMap.addMarker(new MarkerOptions().position(Olympia_s).title("Olympia's Zorba Music Hall"));
         mMap.addMarker(new MarkerOptions().position(Hearing_r).title("The Hearing Room"));
-        mMap.addMarker(new MarkerOptions().position(Tsongas_c).title("Tsongas Center At UMass Lowell"));
-
+        mMap.addMarker(new MarkerOptions().position(Tsongas_c).title(name));
 
 
         Toast.makeText(this, "Map Ready", Toast.LENGTH_SHORT).show();
