@@ -26,8 +26,8 @@ public class UserData {
     private String EmailAddress;
     File localFile = null;
     private boolean isArtist;
-    private double averageRating;
-    private long NumRatings;
+    private double sumOfAllRatings;
+    private int NumRatings;
     private Location location;
     private String ImageString;
     private String locationString;
@@ -88,11 +88,11 @@ public class UserData {
         return isArtist;
     }
 
-    public double getAvgRating(){
-        return averageRating;
+    public double getRatingSum(){
+        return sumOfAllRatings;
     }
 
-    public long getNumRatings(){
+    public int getNumRatings(){
         return NumRatings;
     }
 
@@ -127,8 +127,12 @@ public class UserData {
         ImagePath = imagePath;
     }
 
-    public void setNumRatings(long numRatings) {
+    public void setNumRatings(int numRatings) {
         NumRatings = numRatings;
+    }
+
+    public void setRatingSum (double ratingSum) {
+        sumOfAllRatings = ratingSum;
     }
 
     public void setIsArtist(boolean Artist) {

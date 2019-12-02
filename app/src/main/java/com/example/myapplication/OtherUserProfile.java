@@ -48,7 +48,7 @@ public class OtherUserProfile extends AppCompatActivity {
         //Get the current FireBase User
         User = mAuth.getCurrentUser();
         Log.d("GETUSER TAG",User.getEmail());
-        Intent caller = getIntent();
+        final Intent caller = getIntent();
         String eMailAddr = caller.getStringExtra("idEmail");
         mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference userProfilePicRef = mStorageRef.child(eMailAddr + ".jpg");
@@ -100,7 +100,10 @@ public class OtherUserProfile extends AppCompatActivity {
         TextView bioTextview = findViewById(R.id.bioTextView);
         LastNameTextView.setText(bio);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+
+
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,19 +119,25 @@ public class OtherUserProfile extends AppCompatActivity {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                setAvg(rating);
+                double ratingSum = caller.getDoubleExtra("idSum", 0.0);
+                int numRatings = caller.getIntExtra("idNumOfRates", 1);
+                setAvg(rating, ratingSum, numRatings);
             }
         });
 
     }
     //End OnCreate
 
-    public void setAvg(float rating)
+    public void setAvg(float rating, double ratingSum, int numVotes)
     {
         final TextView avgRatingVal = findViewById(R.id.avgRatingVal);
 
-        rating++;
-        avgRatingVal.setText(String.valueOf(rating));
+        numVotes++;
+        ratingSum += rating;
+
+        double avg = ratingSum / numVotes;
+
+        avgRatingVal.setText(String.valueOf(avg));
     }
 
     //After choosing a picture
