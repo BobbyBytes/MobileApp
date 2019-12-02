@@ -64,6 +64,8 @@ public class CreateVenueProfile extends AppCompatActivity {
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     public String temp1;
+    Location loc;
+    public double [] coordinates_arr = new double [2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +147,7 @@ public class CreateVenueProfile extends AppCompatActivity {
     }
 
     //Modified method from the maps activity.
+    //Get data from venue
     public String get_addr_String_wrapper(){
         Log.d(TAG, "getDeviceLocation: getting the device's current location");
 
@@ -159,7 +162,10 @@ public class CreateVenueProfile extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Log.d(TAG, "onComplete: found location");
                             Location curentLocation = (Location) task.getResult();
+                            loc = curentLocation;
                             temp = getCompleteAddressString(curentLocation.getLatitude(), curentLocation.getLongitude());
+                            coordinates_arr[0] = curentLocation.getLatitude();
+                            coordinates_arr[1] = curentLocation.getLongitude();
 
                         } else {
                             Log.d(TAG, "onComp  lete: current location is null");
@@ -273,6 +279,8 @@ public class CreateVenueProfile extends AppCompatActivity {
         UserData mUserArtist = new UserData(DisplayName, Genre, Bio);
         mUserArtist.setEmailAddress(eMailAddress);
         mUserArtist.setLocationString(get_addr_String_wrapper());
+        mUserArtist.setLocation(loc);
+        mUserArtist.setCoordinates_arr(coordinates_arr);
         db.collection("venues").document(eMailAddress).set(mUserArtist);
         goToMainContentActivity();
     }
