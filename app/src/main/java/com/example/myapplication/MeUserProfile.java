@@ -111,8 +111,12 @@ public class MeUserProfile extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                /*
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                */
+                goInbox();
             }
         });
     }
@@ -163,6 +167,13 @@ public class MeUserProfile extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    public void goInbox()
+    {
+        Intent gotoInbox = new Intent();
+        gotoInbox.setClass(this, MessengerActivity.class);
+        startActivity(gotoInbox);
     }
 
     public void goBack(View view)

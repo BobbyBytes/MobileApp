@@ -32,9 +32,10 @@ public class Chat_Room extends AppCompatActivity {
     private TextView chat_conversation;
     //Vars
     private String user_name, room_name;
+    //Realtime database root
     private DatabaseReference root;
     private String temp_key;
-
+    private String chat_msg, chat_user_name;
 
 
     @Override
@@ -45,15 +46,19 @@ public class Chat_Room extends AppCompatActivity {
         input_msg = (EditText) findViewById(R.id.msg_input);
         chat_conversation = (TextView)findViewById(R.id.textView);
 
+        //Get extras from previous activities
         user_name = getIntent().getExtras().get("user_name").toString();
         room_name = getIntent().getExtras().get("room_name").toString();
         setTitle(" Room -"+room_name);
 
         root = FirebaseDatabase.getInstance().getReference().child(room_name);
 
+
+        //Button event that sends text msgs from the user.
         btn_send_msg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Hash maps used to represent the structure and logic the database
                 Map<String,Object> map = new HashMap<String, Object>();
                 temp_key = root.push().getKey();
                 root.updateChildren(map);
@@ -66,6 +71,7 @@ public class Chat_Room extends AppCompatActivity {
             }
         });
 
+        //Event Listener that adds messages to the database.
         root.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -96,10 +102,11 @@ public class Chat_Room extends AppCompatActivity {
 
     }
 
-    private String chat_msg, chat_user_name;
+  //Method that adds text converstion
     private void append_chat_conversation(DataSnapshot dataSnapshot){
         Iterator i = dataSnapshot.getChildren().iterator();
         while(i.hasNext()){
+
             chat_msg = (String) ((DataSnapshot)i.next()).getValue();
             chat_user_name = (String) ((DataSnapshot)i.next()).getValue();
             chat_conversation.append(chat_user_name + " : " +chat_msg + "\n");

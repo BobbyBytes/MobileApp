@@ -2,21 +2,34 @@ package com.example.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,6 +38,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class CreateVenueProfile extends AppCompatActivity {
 
@@ -34,21 +49,41 @@ public class CreateVenueProfile extends AppCompatActivity {
     private FirebaseAuth mAuth;
     ImageView mImage;
     EditText mDisplayName;
-    EditText mLoacation;
+    EditText mLocation;
     EditText mVenueAbout;
     Button mVenueBtnUpload;
     Bitmap bitmap;
+
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+    private Boolean mLOcationPermissionGranted = false;
+    public String temp;
+    private static final String TAG = "createVprofile";
+    //Class Vars
+
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+    public String temp1;
+    Location loc;
+    public double [] coordinates_arr = new double [2];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getLocationPermission();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_venue_profile);
         mAuth = FirebaseAuth.getInstance();
         User = mAuth.getCurrentUser();
         mImage = findViewById(R.id.venueUploadPic);
         mDisplayName = findViewById(R.id.venueDisplayNameUpload);
-        mLoacation = findViewById(R.id.venueLocationUpload);
+        mLocation = findViewById(R.id.venueLocationUpload);
         mVenueAbout = findViewById(R.id.venueAboutUpload);
         mVenueBtnUpload = findViewById(R.id.btnVenueCreateProfile);
+
+        ////brute force getting the location.
+        for(int i = 0; i < 10; i++) {
+            temp1 = get_addr_String_wrapper();
+        }
         //Set on click to open file chooser for a profile pic.
         mImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +98,123 @@ public class CreateVenueProfile extends AppCompatActivity {
                 uploadProfile();
             }
         });
+
     }
+
+
+    //Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
+
+    private void getLocationPermission() {
+
+        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION};
+
+        if(ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            if(ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                    COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                mLOcationPermissionGranted = true;
+            }else{
+                ActivityCompat.requestPermissions(this,
+                        permissions,
+                        LOCATION_PERMISSION_REQUEST_CODE);
+            }
+        }else{
+            ActivityCompat.requestPermissions(this,
+                    permissions,
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+//Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mLOcationPermissionGranted = false;
+
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < grantResults.length; i++) {
+                        if(grantResults[0] != PackageManager.PERMISSION_GRANTED)
+                            mLOcationPermissionGranted = false;
+                        return;
+                    }
+                }
+                mLOcationPermissionGranted = true;
+            }
+        }
+    }
+
+    //Modified method from the maps activity.
+    //Get data from venue
+    public String get_addr_String_wrapper(){
+        Log.d(TAG, "getDeviceLocation: getting the device's current location");
+
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        try {
+            if(mLOcationPermissionGranted){
+                Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if(task.isSuccessful()){
+                            Log.d(TAG, "onComplete: found location");
+                            Location curentLocation = (Location) task.getResult();
+                            loc = curentLocation;
+                            temp = getCompleteAddressString(curentLocation.getLatitude(), curentLocation.getLongitude());
+                            coordinates_arr[0] = curentLocation.getLatitude();
+                            coordinates_arr[1] = curentLocation.getLongitude();
+
+                        } else {
+                            Log.d(TAG, "onComp  lete: current location is null");
+                            Toast.makeText(CreateVenueProfile.this, "unbal to get current location", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e){
+            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
+        }
+        return temp;
+    }
+
+    //https://stackoverflow.com/questions/9409195/how-to-get-complete-address-from-latitude-and-longitude
+    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+            if (addresses != null) {
+
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
+                /*
+                String city = addresses.get(0).getLocality();
+                strReturnedAddress.append(city).append("\n");
+                String state = addresses.get(0).getAdminArea();
+                strReturnedAddress.append(state).append("\n");
+                */
+
+                for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+                }
+
+
+                strAdd = strReturnedAddress.toString();
+                Log.w("My Current loction", strReturnedAddress.toString());
+            } else {
+                Log.w("My Current loction", "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w("My Current loction", "Canont get Address!");
+        }
+        return strAdd;
+    }
+
+
 
     //After choosing a picture from the file chooser.
     @Override
@@ -123,10 +274,13 @@ public class CreateVenueProfile extends AppCompatActivity {
         String Genre;
         String Bio;
         DisplayName = mDisplayName.getText().toString();
-        Genre = mLoacation.getText().toString();
+        Genre = mLocation.getText().toString();
         Bio = mVenueAbout.getText().toString();
         UserData mUserArtist = new UserData(DisplayName, Genre, Bio);
         mUserArtist.setEmailAddress(eMailAddress);
+        mUserArtist.setLocationString(get_addr_String_wrapper());
+        mUserArtist.setLocation(loc);
+        mUserArtist.setCoordinates_arr(coordinates_arr);
         db.collection("venues").document(eMailAddress).set(mUserArtist);
         goToMainContentActivity();
     }

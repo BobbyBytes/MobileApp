@@ -2,9 +2,13 @@ package com.example.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
@@ -31,17 +35,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;        //Needed to update the build gradle for this libary to work:
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-
-
 
 
 import java.io.IOException;
@@ -59,14 +55,24 @@ public class CreateArtistProfile extends AppCompatActivity {
     EditText mBio;
     Button mBtnUpload;
     Bitmap bitmap;
+
+    //Reused class vars from Maps activity
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Boolean mLOcationPermissionGranted = false;
     public String temp;
+    public String temp1;
     private static final String TAG = "createprofile";
+    //Class Vars
+
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getLocationPermission();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_artist_profile);
         mAuth = FirebaseAuth.getInstance();
@@ -76,6 +82,12 @@ public class CreateArtistProfile extends AppCompatActivity {
         mGenre = findViewById(R.id.artistGenreUpload);
         mBio = findViewById(R.id.artistBioUpload);
         mBtnUpload = findViewById(R.id.btnCreateProfile);
+
+        ////brute force getting the location.
+        for(int i = 0; i < 10; i++) {
+            temp1 = get_addr_String_wrapper();
+        }
+
         //Set on click to open file chooser for a profile pic.
         mImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,16 +96,63 @@ public class CreateArtistProfile extends AppCompatActivity {
             }
         });
 
+
         mBtnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 uploadProfile();
             }
         });
+
     }
 
 
-    //Modified method from the maps activity.
+//Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
+    private void getLocationPermission() {
+
+        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION};
+
+        if(ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            if(ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                    COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                mLOcationPermissionGranted = true;
+            }else{
+                ActivityCompat.requestPermissions(this,
+                        permissions,
+                        LOCATION_PERMISSION_REQUEST_CODE);
+            }
+        }else{
+            ActivityCompat.requestPermissions(this,
+                    permissions,
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+//Source used to get location permission from users. https://www.youtube.com/watch?v=Vt6H9TOmsuo&list=PLgCYzUzKIBE-vInwQhGSdnbyJ62nixHCt&index=4
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mLOcationPermissionGranted = false;
+
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < grantResults.length; i++) {
+                        if(grantResults[0] != PackageManager.PERMISSION_GRANTED)
+                            mLOcationPermissionGranted = false;
+                        return;
+                    }
+                }
+                mLOcationPermissionGranted = true;
+            }
+        }
+    }
+
+
+
+    //Modified method from the maps activity. This method gets permission before a string with
+    //the users information
     public String get_addr_String_wrapper(){
         Log.d(TAG, "getDeviceLocation: getting the device's current location");
 
@@ -126,6 +185,7 @@ public class CreateArtistProfile extends AppCompatActivity {
 
 
     //https://stackoverflow.com/questions/9409195/how-to-get-complete-address-from-latitude-and-longitude
+   //
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
         String strAdd = "";
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());

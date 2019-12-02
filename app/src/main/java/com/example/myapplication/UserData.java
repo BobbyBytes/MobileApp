@@ -31,6 +31,19 @@ public class UserData {
     private Location location;
     private String locationString;
     private String ImageString;
+    private String locationString;
+    private double [] coordinates_arr = new double [2];
+
+
+    public String getLocationString() {
+        return locationString;
+    }
+
+    public void setLocationString(String locationString) {
+        this.locationString = locationString;
+    }
+
+    public void setCoordinates_arr(double arr[]) {this.coordinates_arr[0] = arr[0]; this.coordinates_arr[1] = arr[0];}
 
     public String getLocationString() {
         return locationString;

@@ -42,6 +42,8 @@ public class MessengerActivity extends AppCompatActivity {
     private EditText room_name;
 
     private ListView listView;
+
+    //Used to display listed chat rooms.
     private ArrayAdapter<String> arrayAdapter;
     private ArrayList<String> list_of_rooms = new ArrayList<>();
     private String name;
@@ -63,21 +65,29 @@ public class MessengerActivity extends AppCompatActivity {
 
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_of_rooms);
         listView.setAdapter(arrayAdapter);
-        request_user_name();
 
+        //Get username from cloud firestore.
+        get_user_name();
+
+        //Onclick listener to add room.
         add_room.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put(room_name.getText().toString(), "");
+
+
+                Map<String,Object> map = new HashMap<String, Object>();
+                map.put(room_name.getText().toString(),"");
                 root.updateChildren(map);
             }
         });
 
+        //Get root of realtime firebase app and list all the rooms with the listview type.
         root.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Set<String> set = new HashSet<String>();
+
+                //Loop to get children rooms
                 Iterator i = dataSnapshot.getChildren().iterator();
                 while (i.hasNext()) {
                     set.add(((DataSnapshot) i.next()).getKey());
@@ -94,6 +104,7 @@ public class MessengerActivity extends AppCompatActivity {
             }
         });
 
+        //When user clicks chat room they are taken to than chatroom
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -105,39 +116,16 @@ public class MessengerActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
-    private void request_user_name() {
-        //Code commented out below gets a user name for the chat room.
+    //Method get username from the database.
+    private void get_user_name() {
 
-        /*
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter Name:");
-
-        final EditText input_field = new EditText(this);
-
-        builder.setView(input_field);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                name = input_field.getText().toString();
-            }
-        });
-
-        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                dialog.cancel();
-                request_user_name();
-            }
-        });
-        builder.show();
-    */
         mAuth = FirebaseAuth.getInstance();
         User = mAuth.getCurrentUser();
 
         name = User.getEmail();
+        //use for debugging.
         Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
     }
 }
