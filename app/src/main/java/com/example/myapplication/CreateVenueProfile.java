@@ -49,7 +49,7 @@ public class CreateVenueProfile extends AppCompatActivity {
     private FirebaseAuth mAuth;
     ImageView mImage;
     EditText mDisplayName;
-    EditText mLoacation;
+    EditText mLocation;
     EditText mVenueAbout;
     Button mVenueBtnUpload;
     Bitmap bitmap;
@@ -74,7 +74,7 @@ public class CreateVenueProfile extends AppCompatActivity {
         User = mAuth.getCurrentUser();
         mImage = findViewById(R.id.venueUploadPic);
         mDisplayName = findViewById(R.id.venueDisplayNameUpload);
-        mLoacation = findViewById(R.id.venueLocationUpload);
+        mLocation = findViewById(R.id.venueLocationUpload);
         mVenueAbout = findViewById(R.id.venueAboutUpload);
         mVenueBtnUpload = findViewById(R.id.btnVenueCreateProfile);
 
@@ -268,7 +268,7 @@ public class CreateVenueProfile extends AppCompatActivity {
         String Genre;
         String Bio;
         DisplayName = mDisplayName.getText().toString();
-        Genre = mLoacation.getText().toString();
+        Genre = mLocation.getText().toString();
         Bio = mVenueAbout.getText().toString();
         UserData mUserArtist = new UserData(DisplayName, Genre, Bio);
         mUserArtist.setEmailAddress(eMailAddress);
