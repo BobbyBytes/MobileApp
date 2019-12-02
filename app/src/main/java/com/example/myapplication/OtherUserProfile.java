@@ -99,6 +99,7 @@ public class OtherUserProfile extends AppCompatActivity {
         String bio = caller.getStringExtra("idBio");
         TextView bioTextview = findViewById(R.id.bioTextView);
         LastNameTextView.setText(bio);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,49 +109,26 @@ public class OtherUserProfile extends AppCompatActivity {
             }
         });
 
+        //This sets the avg rating to the currently clicked value
+        //Need to make this do stuff with values from the database using various getters and setters
+        RatingBar ratingBar = findViewById(R.id.ratingBar);
 
-        float sum = 0;
-
-        for(int i = 0; i < 15; i++)
-        {
-            sum += generateRatingVal();
-        }
-        sum /= 15;
-        setRateVal();
-        setAvgRating(sum);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                setAvg(rating);
+            }
+        });
 
     }
     //End OnCreate
 
-    private double generateRatingVal()
+    public void setAvg(float rating)
     {
-        //generates a random float between 0 and 5 to display as a rating
-        float minRating = (float)0.0;
-        float maxRating = (float)5.0;
-        Random rand = new Random();
-        float randNum = minRating + rand.nextFloat() * (maxRating - minRating);
-        return randNum;
-    }
+        final TextView avgRatingVal = findViewById(R.id.avgRatingVal);
 
-    private void setRateVal()
-    {
-        float minRating = (float)0.0;
-
-        float maxRating = (float)5.0;
-        Random rand = new Random();
-        float randNum = minRating + rand.nextFloat() * (maxRating - minRating);
-        RatingBar ratingBar = findViewById(R.id.ratingBar);
-        ratingBar.setRating(randNum);
-    }
-
-    private void setAvgRating(float sum)
-    {
-        RatingBar ratingBar = findViewById(R.id.ratingBar);
-        TextView avgRating = findViewById(R.id.avgRating);
-
-        //float num = ratingBar.getRating();
-
-        avgRating.setText(String.format("%.2f", sum));
+        rating++;
+        avgRatingVal.setText(String.valueOf(rating));
     }
 
     //After choosing a picture

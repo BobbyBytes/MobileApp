@@ -27,7 +27,7 @@ public class UserData {
     File localFile = null;
     private boolean isArtist;
     private double averageRating;
-    private long numRatings;
+    private long NumRatings;
     private Location location;
     private String ImageString;
     private String locationString;
@@ -93,7 +93,7 @@ public class UserData {
     }
 
     public long getNumRatings(){
-        return numRatings;
+        return NumRatings;
     }
 
     public String getDisplayName(){ return DisplayName;}
@@ -127,6 +127,9 @@ public class UserData {
         ImagePath = imagePath;
     }
 
+    public void setNumRatings(long numRatings) {
+        NumRatings = numRatings;
+    }
 
     public void setIsArtist(boolean Artist) {
         isArtist = Artist;
