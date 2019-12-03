@@ -132,6 +132,7 @@ public class MainContent extends AppCompatActivity {
         String eMailAddr = userData.getEmailAddress();
         double ratingSum = userData.getRatingSum();
         int numRatings = userData.getNumRatings();
+        double avgRating = userData.getAvgRating();
 
         Intent gotoUserIntent = new Intent();
         gotoUserIntent.putExtra("idDisplayName", displayName);
@@ -140,6 +141,8 @@ public class MainContent extends AppCompatActivity {
         gotoUserIntent.putExtra("idEmail", eMailAddr);
         gotoUserIntent.putExtra("idSum", ratingSum);
         gotoUserIntent.putExtra("idNumOfRates", numRatings);
+        gotoUserIntent.putExtra("idAvg", avgRating);
+
 
         //goto user profile
         gotoUserIntent.setClass(this, OtherUserProfile.class);

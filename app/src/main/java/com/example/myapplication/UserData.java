@@ -28,6 +28,7 @@ public class UserData {
     private boolean isArtist;
     private double sumOfAllRatings;
     private int NumRatings;
+    private double AvgRating;
     private Location location;
     private String ImageString;
     private String locationString;
@@ -96,6 +97,10 @@ public class UserData {
         return NumRatings;
     }
 
+    public double getAvgRating() {
+        return AvgRating;
+    }
+
     public String getDisplayName(){ return DisplayName;}
 
     public String getGenre(){ return Genre;}
@@ -133,6 +138,10 @@ public class UserData {
 
     public void setRatingSum (double ratingSum) {
         sumOfAllRatings = ratingSum;
+    }
+
+    public void setAvgRating(double avgRating) {
+        AvgRating = avgRating;
     }
 
     public void setIsArtist(boolean Artist) {

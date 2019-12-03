@@ -99,15 +99,18 @@ public class OtherUserProfile extends AppCompatActivity {
         String DisplayName = caller.getStringExtra("idDisplayName");
         TextView FirstNameTextView = findViewById(R.id.textViewFirstName);
         FirstNameTextView.setText(DisplayName);
+
         String genre = caller.getStringExtra("idGenre");
         TextView LastNameTextView = findViewById(R.id.textViewLastName);
         LastNameTextView.setText(genre);
+
         String bio = caller.getStringExtra("idBio");
         TextView bioTextview = findViewById(R.id.bioTextView);
         LastNameTextView.setText(bio);
 
-
-
+        Double avgRating = caller.getDoubleExtra("idAvg", 0.0);
+        TextView avgRatingVal = findViewById(R.id.avgRatingVal);
+        avgRatingVal.setText(String.valueOf(avgRating));
 
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -120,10 +123,9 @@ public class OtherUserProfile extends AppCompatActivity {
         });
 
 
-        //This sets the avg rating to the currently clicked value
-        //Need to make this do stuff with values from the database using various getters and setters
         RatingBar ratingBar = findViewById(R.id.ratingBar);
 
+        //When the rating bar is clicked do all this stuff
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -131,33 +133,31 @@ public class OtherUserProfile extends AppCompatActivity {
                 int numRatings = caller.getIntExtra("idNumOfRates", 1);
                 String emailAddr = caller.getStringExtra("idEmail");
                 setAvg(rating, ratingSum, numRatings, emailAddr);
-
             }
         });
 
     }
     //End OnCreate
 
+    //Sets the average rating and updates the value in the DB
     public void setAvg(float rating, double ratingSum, int numVotes, String emailAddr)
     {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         final TextView avgRatingVal = findViewById(R.id.avgRatingVal);
 
         numVotes++;
         ratingSum += rating;
-
         double avg = ratingSum / numVotes;
 
         avgRatingVal.setText(String.valueOf(avg));
 
         DocumentReference sum = db.collection("users").document(emailAddr);
         DocumentReference voteCount = db.collection("users").document(emailAddr);
+        DocumentReference avgRating = db.collection("users").document(emailAddr);
 
-        sum.update("avgRating", ratingSum);
+        sum.update("sum", ratingSum);
         voteCount.update("numRatings", numVotes);
-
-
+        avgRating.update("avgRating", avg);
     }
 
     //After choosing a picture
