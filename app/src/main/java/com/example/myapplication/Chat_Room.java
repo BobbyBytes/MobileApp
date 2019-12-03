@@ -49,7 +49,7 @@ public class Chat_Room extends AppCompatActivity {
         //Get extras from previous activities
         user_name = getIntent().getExtras().get("user_name").toString();
         room_name = getIntent().getExtras().get("room_name").toString();
-        setTitle(" Room -"+room_name);
+        setTitle(room_name);
 
         root = FirebaseDatabase.getInstance().getReference().child(room_name);
 

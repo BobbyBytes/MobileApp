@@ -90,7 +90,7 @@ public class OtherUserProfile extends AppCompatActivity {
 
         //Grab the name string from the calling intent
 
-        String DisplayName = caller.getStringExtra("idDisplayName");
+        final String DisplayName = caller.getStringExtra("idDisplayName");
         TextView FirstNameTextView = findViewById(R.id.textViewFirstName);
         FirstNameTextView.setText(DisplayName);
         String genre = caller.getStringExtra("idGenre");
@@ -103,8 +103,7 @@ public class OtherUserProfile extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                gotoMessengerActivity(DisplayName);
             }
         });
 
@@ -214,5 +213,13 @@ public class OtherUserProfile extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
+    }
+
+    private void gotoMessengerActivity(String displayName){
+
+        Intent intent = new Intent(getApplicationContext(), Chat_Room.class);
+        intent.putExtra("room_name", displayName);
+        intent.putExtra("user_name", User.getEmail());
+        startActivity(intent);
     }
 }
