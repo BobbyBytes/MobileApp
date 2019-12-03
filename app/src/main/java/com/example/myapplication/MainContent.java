@@ -60,7 +60,6 @@ public class MainContent extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
 
-
         searchDBforUser(db);
 
 
@@ -190,6 +189,7 @@ public class MainContent extends AppCompatActivity {
                                 if(tmpEmail != null){
                                     if(tmpEmail.equals(email)){
                                         initializePage("venues");
+                                        isArtist = true;
                                         return;
                                     }
                                 }
@@ -213,6 +213,7 @@ public class MainContent extends AppCompatActivity {
                                 if(tmpEmail != null){
                                     if(tmpEmail.equals(email)){
                                         initializePage("users" );
+                                        isArtist =false;
                                         return;
                                     }
                                 }

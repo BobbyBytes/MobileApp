@@ -102,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if(task.isSuccessful()){
                             Log.d(TAG, "onComplete: found location");
                             Location curentLocation = (Location) task.getResult();
-                            moveCamera(new LatLng(curentLocation.getLatitude(), curentLocation.getLongitude()), DEFAULT_ZOOM);
+                            //moveCamera(new LatLng(curentLocation.getLatitude(), curentLocation.getLongitude()), DEFAULT_ZOOM);
 
                         } else {
                             Log.d(TAG, "onComp  lete: current location is null");
@@ -259,20 +259,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 double longitude = ud.getLongitude();
                                 double latitude = ud.getLatitude();
                                 // Location location = ud.getLocation();
-                                latLng = new LatLng(longitude, latitude);
+                                latLng = new LatLng(latitude, longitude);
                                 mkr = mMap.addMarker(new MarkerOptions().position(latLng).title(name));
-                                if (mkr != null){
+                                if (mkr != null)
+                                {
+                                    if(longitude != 0 && latitude != 0)
                                     markers.add(mkr);
                                 }
 
                             }
-                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                            for (Marker marker : markers) {
-                                builder.include(marker.getPosition());
-                            }
-                            LatLngBounds bounds = builder.build();
-                            int padding = 0; // offset from edges of the map in pixels
-                            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                            setCameraBounds();
 
                         } else {
                             Log.d("TAG", "Error getting map documents: ", task.getException());
@@ -305,6 +301,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Toast.makeText(this, "Map Ready", Toast.LENGTH_SHORT).show();
     }
 
+    private void setCameraBounds(){
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker marker : markers) {
+            builder.include(marker.getPosition());
+        }
+        LatLngBounds bounds = builder.build();
+
+        int padding = 0; // offset from edges of the map in pixels
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+        mMap.moveCamera(cu);
+
+    }
 
 
 }
