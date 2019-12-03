@@ -107,6 +107,9 @@ public class OtherUserProfile extends AppCompatActivity {
         LastNameTextView.setText(bio);
 
 
+
+
+
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +129,8 @@ public class OtherUserProfile extends AppCompatActivity {
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 double ratingSum = caller.getDoubleExtra("idSum", 0.0);
                 int numRatings = caller.getIntExtra("idNumOfRates", 1);
-                setAvg(rating, ratingSum, numRatings);
+                String emailAddr = caller.getStringExtra("idEmail");
+                setAvg(rating, ratingSum, numRatings, emailAddr);
 
             }
         });
@@ -134,7 +138,7 @@ public class OtherUserProfile extends AppCompatActivity {
     }
     //End OnCreate
 
-    public void setAvg(float rating, double ratingSum, int numVotes)
+    public void setAvg(float rating, double ratingSum, int numVotes, String emailAddr)
     {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -147,8 +151,8 @@ public class OtherUserProfile extends AppCompatActivity {
 
         avgRatingVal.setText(String.valueOf(avg));
 
-        DocumentReference sum = db.collection("users").document(User.getEmail());
-        DocumentReference voteCount = db.collection("users").document(User.getEmail());
+        DocumentReference sum = db.collection("users").document(emailAddr);
+        DocumentReference voteCount = db.collection("users").document(emailAddr);
 
         sum.update("avgRating", ratingSum);
         voteCount.update("numRatings", numVotes);
