@@ -30,6 +30,12 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
+            <ImageView
+                android:id="@+id/profile_pic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY" />
+
             <ImageButton
                 android:id="@+id/back_button"
                 android:layout_width="66dp"
@@ -40,12 +46,6 @@
                 android:onClick="goBack"
                 app:srcCompat="@drawable/ic_arrow_v4"
                 android:textSize="24sp" />
-
-            <ImageView
-                android:id="@+id/profile_pic"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
