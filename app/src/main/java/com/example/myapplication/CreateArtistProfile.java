@@ -55,7 +55,8 @@ public class CreateArtistProfile extends AppCompatActivity {
     EditText mBio;
     Button mBtnUpload;
     Bitmap bitmap;
-
+    private double longitude;
+    private double latittude;
     //Reused class vars from Maps activity
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Boolean mLOcationPermissionGranted = false;
@@ -168,6 +169,8 @@ public class CreateArtistProfile extends AppCompatActivity {
                             Log.d(TAG, "onComplete: found location");
                             Location curentLocation = (Location) task.getResult();
                             temp = getCompleteAddressString(curentLocation.getLatitude(), curentLocation.getLongitude());
+                            latittude = curentLocation.getLatitude();
+                            longitude = curentLocation.getLongitude();
 
                         } else {
                             Log.d(TAG, "onComp  lete: current location is null");
@@ -284,7 +287,10 @@ public class CreateArtistProfile extends AppCompatActivity {
         Genre = mGenre.getText().toString();
         Bio = mBio.getText().toString();
         UserData mUserArtist = new UserData(DisplayName, Genre, Bio);
+        mUserArtist.setLongitude(longitude);
+        mUserArtist.setLatitude(latittude);
         mUserArtist.setEmailAddress(eMailAddress);
+        mUserArtist.setIsArtist(true);
         mUserArtist.setLocationString(get_addr_String_wrapper());
         db.collection("users").document(eMailAddress).set(mUserArtist);
 

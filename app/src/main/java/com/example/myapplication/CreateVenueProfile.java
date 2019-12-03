@@ -59,7 +59,8 @@ public class CreateVenueProfile extends AppCompatActivity {
     public String temp;
     private static final String TAG = "createVprofile";
     //Class Vars
-
+    private double longitude;
+    private double latitubde;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
@@ -166,6 +167,9 @@ public class CreateVenueProfile extends AppCompatActivity {
                             temp = getCompleteAddressString(curentLocation.getLatitude(), curentLocation.getLongitude());
                             coordinates_arr[0] = curentLocation.getLatitude();
                             coordinates_arr[1] = curentLocation.getLongitude();
+                            latitubde = curentLocation.getLatitude();
+                            longitude = curentLocation.getLongitude();
+
 
                         } else {
                             Log.d(TAG, "onComp  lete: current location is null");
@@ -277,9 +281,12 @@ public class CreateVenueProfile extends AppCompatActivity {
         Genre = mLocation.getText().toString();
         Bio = mVenueAbout.getText().toString();
         UserData mUserArtist = new UserData(DisplayName, Genre, Bio);
+        mUserArtist.setLatitude(latitubde);
+        mUserArtist.setLongitude(longitude);
         mUserArtist.setEmailAddress(eMailAddress);
         mUserArtist.setLocationString(get_addr_String_wrapper());
         mUserArtist.setLocation(loc);
+        mUserArtist.setIsArtist(false);
         mUserArtist.setCoordinates_arr(coordinates_arr);
         db.collection("venues").document(eMailAddress).set(mUserArtist);
         goToMainContentActivity();

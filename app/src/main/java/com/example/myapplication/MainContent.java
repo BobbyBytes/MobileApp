@@ -19,9 +19,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -32,17 +34,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 
 public class MainContent extends AppCompatActivity {
     List<UserData> mUserData = new ArrayList<>();
+    FirebaseFirestore db;
     Context context;
     private FirebaseAuth mAuth;
     // Create adapter and pass in the user data list
     final UsersAdapter adapter = new UsersAdapter(mUserData);
     Bitmap bitmap = null;
     String dataBaseCollectionPath;
-    boolean isArtist;
-
+    Boolean isArtist = null;
+    private Object lock = new Object();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,15 +57,13 @@ public class MainContent extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         //Create connection to DB
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
 
-        isArtist = intent.getBooleanExtra("idIsArtist", false);
-        if (isArtist) {
-            dataBaseCollectionPath = "venues";
-        } else {
-            dataBaseCollectionPath = "users";
-        }
+
+        searchDBforUser(db);
+
+
         //Create and write Write a user test
         UserData User1 = new UserData("User3", "From Code Behind", "App Created User3");
         User1.setEmailAddress("Neil_Armstrong");
@@ -74,28 +77,6 @@ public class MainContent extends AppCompatActivity {
         userListView.setLayoutManager(new LinearLayoutManager(this));
         // Attach the adapter to the recyclerview to populate items
         userListView.setAdapter(adapter);
-
-        //Get the entire collection called "users" from firebase.
-        db.collection(dataBaseCollectionPath)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("TAG", document.getId() + " => " + document.getData());
-                                UserData userDataFromDB = document.toObject(UserData.class);
-
-                                mUserData.add(userDataFromDB);
-                            }
-                            getImagesForProfilesFromList(mUserData);
-                            adapter.notifyDataSetChanged();
-                        } else {
-                            Log.d("TAG", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
 
         //Add the on click listener to the recycler view.
         userListView.addOnItemTouchListener(
@@ -134,6 +115,7 @@ public class MainContent extends AppCompatActivity {
 
     public void goToMapScreen(View view) {
         Intent goToMap = new Intent();
+        goToMap.putExtra("idIsArtist", isArtist);
         goToMap.setClass(this, MapsActivity.class);
         startActivity(goToMap);
     }
@@ -191,6 +173,88 @@ public class MainContent extends AppCompatActivity {
         }//End for loop
     }
 
+    private void searchDBforUser(FirebaseFirestore db){
+        FirebaseUser user = mAuth.getCurrentUser();
+        final String email = user.getEmail();
 
+        db.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("TAG", document.getId() + " => " + document.getData());
+                                String tmpEmail = new String();
+                                tmpEmail = document.getString("emailAddress");
+                                if(tmpEmail != null){
+                                    if(tmpEmail.equals(email)){
+                                        initializePage("venues");
+                                        return;
+                                    }
+                                }
+                            }
+                        } else {
+                            Log.d("TAG", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        db.collection("venues")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("TAG", document.getId() + " => " + document.getData());
+                                String tmpEmail = "";
+                                tmpEmail = document.getString("emailAddress");
+                                if(tmpEmail != null){
+                                    if(tmpEmail.equals(email)){
+                                        initializePage("users" );
+                                        return;
+                                    }
+                                }
+                            }
+                        } else {
+                            Log.d("TAG", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
+    private void setIsArtist(boolean misArtist){
+
+        synchronized (lock){
+            isArtist = misArtist;
+            lock.notify();
+        }
+
+    }
+
+    private void initializePage( String dataBaseCollectionPath){
+        //Get the entire collection called "users" from firebase.
+        db.collection(dataBaseCollectionPath)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("TAG", document.getId() + " => " + document.getData());
+                                UserData userDataFromDB = document.toObject(UserData.class);
+
+                                mUserData.add(userDataFromDB);
+                            }
+                            getImagesForProfilesFromList(mUserData);
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Log.d("TAG", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
 }
 

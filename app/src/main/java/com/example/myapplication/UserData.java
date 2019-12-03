@@ -16,6 +16,8 @@ public class UserData {
     }
 
     private String DisplayName;
+    private double Longitude;
+    private double Latitude;
     private String Genre;
     private String Bio;
     private String FirstName;
@@ -31,17 +33,25 @@ public class UserData {
     private Location location;
     private String locationString;
     private String ImageString;
-    private String locationString;
     private double [] coordinates_arr = new double [2];
 
 
-    public String getLocationString() {
-        return locationString;
+    public double getLongitude() {
+        return Longitude;
     }
 
-    public void setLocationString(String locationString) {
-        this.locationString = locationString;
+    public void setLongitude(double longitude) {
+        Longitude = longitude;
     }
+
+    public double getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        Latitude = latitude;
+    }
+
 
     public void setCoordinates_arr(double arr[]) {this.coordinates_arr[0] = arr[0]; this.coordinates_arr[1] = arr[0];}
 
@@ -59,10 +69,6 @@ public class UserData {
 
     public void setImageString(String imageString) {
         ImageString = imageString;
-    }
-
-    public Location getLocation() {
-        return location;
     }
 
     public void setLocation(Location location) {
