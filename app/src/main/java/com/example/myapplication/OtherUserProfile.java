@@ -21,12 +21,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Random;
 
 public class OtherUserProfile extends AppCompatActivity {
@@ -42,6 +46,8 @@ public class OtherUserProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Connect to firebase
 
         // Initialize FireBase Authentication instance
         mAuth = FirebaseAuth.getInstance();
@@ -101,8 +107,6 @@ public class OtherUserProfile extends AppCompatActivity {
         LastNameTextView.setText(bio);
 
 
-
-
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +115,7 @@ public class OtherUserProfile extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
 
         //This sets the avg rating to the currently clicked value
         //Need to make this do stuff with values from the database using various getters and setters
@@ -122,6 +127,7 @@ public class OtherUserProfile extends AppCompatActivity {
                 double ratingSum = caller.getDoubleExtra("idSum", 0.0);
                 int numRatings = caller.getIntExtra("idNumOfRates", 1);
                 setAvg(rating, ratingSum, numRatings);
+
             }
         });
 
@@ -130,6 +136,8 @@ public class OtherUserProfile extends AppCompatActivity {
 
     public void setAvg(float rating, double ratingSum, int numVotes)
     {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         final TextView avgRatingVal = findViewById(R.id.avgRatingVal);
 
         numVotes++;
@@ -138,6 +146,14 @@ public class OtherUserProfile extends AppCompatActivity {
         double avg = ratingSum / numVotes;
 
         avgRatingVal.setText(String.valueOf(avg));
+
+        DocumentReference sum = db.collection("users").document(User.getEmail());
+        DocumentReference voteCount = db.collection("users").document(User.getEmail());
+
+        sum.update("avgRating", ratingSum);
+        voteCount.update("numRatings", numVotes);
+
+
     }
 
     //After choosing a picture
