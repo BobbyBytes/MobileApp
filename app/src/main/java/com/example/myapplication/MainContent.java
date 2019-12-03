@@ -226,15 +226,6 @@ public class MainContent extends AppCompatActivity {
     }
 
 
-    private void setIsArtist(boolean misArtist){
-
-        synchronized (lock){
-            isArtist = misArtist;
-            lock.notify();
-        }
-
-    }
-
     private void initializePage( String dataBaseCollectionPath){
         //Get the entire collection called "users" from firebase.
         db.collection(dataBaseCollectionPath)

@@ -186,7 +186,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         } else {
                             Log.d(TAG, "onComp  lete: current location is null");
-                            Toast.makeText(MapsActivity.this, "unbal to get current location", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MapsActivity.this, "unabale to get current location", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -266,7 +266,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     if(longitude != 0 && latitude != 0)
                                     markers.add(mkr);
                                 }
-
                             }
                             setCameraBounds();
 
@@ -285,16 +284,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
 
-
         //These should eventually be initialized with Location object from the database
-        LatLng Olympia_s = new LatLng(42.646445, -71.316650);
-        LatLng Hearing_r = new LatLng(42.634200, -71.317904);
-        LatLng Tsongas_c = new LatLng(42.6502, -71.3132);
-        LatLng Nectars_v = new LatLng(44.478561, -73.212733);
-
-        mMap.addMarker(new MarkerOptions().position(Olympia_s).title("Olympia's Zorba Music Hall"));
-        mMap.addMarker(new MarkerOptions().position(Hearing_r).title("The Hearing Room"));
-        mMap.addMarker(new MarkerOptions().position(Tsongas_c).title(name));
+//        LatLng Olympia_s = new LatLng(42.646445, -71.316650);
+//        LatLng Hearing_r = new LatLng(42.634200, -71.317904);
+//        LatLng Tsongas_c = new LatLng(42.6502, -71.3132);
+//        LatLng Nectars_v = new LatLng(44.478561, -73.212733);
+//
+//        mMap.addMarker(new MarkerOptions().position(Olympia_s).title("Olympia's Zorba Music Hall"));
+//        mMap.addMarker(new MarkerOptions().position(Hearing_r).title("The Hearing Room"));
+//        mMap.addMarker(new MarkerOptions().position(Tsongas_c).title(name));
 
 
 
@@ -308,7 +306,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         LatLngBounds bounds = builder.build();
 
-        int padding = 0; // offset from edges of the map in pixels
+        int padding = 10; // offset from edges of the map in pixels
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 
         mMap.moveCamera(cu);

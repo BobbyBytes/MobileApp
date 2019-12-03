@@ -42,6 +42,8 @@
             android:layout_width="360px"
             android:layout_height="230px"
             android:contentDescription="TODO"
+
+            android:layout_weight="1"
             android:onClick="goToMapScreen"
             app:srcCompat="@drawable/ic_menu_buttons_2" />
 
