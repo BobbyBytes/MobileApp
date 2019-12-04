@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_menu_buttons" />
+        app:srcCompat="@drawable/ic_menu_buttons_orange" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
 
             android:layout_weight="1"
             android:onClick="goToMapScreen"
-            app:srcCompat="@drawable/ic_menu_buttons_2" />
+            app:srcCompat="@drawable/ic_menu_buttons_2_orange" />
 
         <ImageButton
             android:id="@+id/inboxButton"
@@ -53,7 +53,7 @@
             android:layout_height="230px"
             android:layout_weight="1"
             android:onClick="viewInbox"
-            app:srcCompat="@drawable/ic_menu_buttons_3" />
+            app:srcCompat="@drawable/ic_menu_buttons_3_orange" />
 
         <ImageButton
             android:id="@+id/myProfileButton"
@@ -61,7 +61,7 @@
             android:layout_height="230px"
             android:layout_weight="1"
             android:onClick="viewMyProfile"
-            app:srcCompat="@drawable/ic_menu_buttons_4" />
+            app:srcCompat="@drawable/ic_menu_buttons_4_orange" />
 
     </LinearLayout>
 

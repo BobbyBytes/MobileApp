@@ -101,12 +101,20 @@ public class MainContent extends AppCompatActivity {
         String genre = userData.getGenre();
         String bio = userData.getbio();
         String eMailAddr = userData.getEmailAddress();
+        double ratingSum = userData.getRatingSum();
+        int numRatings = userData.getNumRatings();
+        double avgRating = userData.getAvgRating();
 
         Intent gotoUserIntent = new Intent();
         gotoUserIntent.putExtra("idDisplayName", displayName);
         gotoUserIntent.putExtra("idGenre", genre);
         gotoUserIntent.putExtra("idBio", bio);
         gotoUserIntent.putExtra("idEmail", eMailAddr);
+        gotoUserIntent.putExtra("idSum", ratingSum);
+        gotoUserIntent.putExtra("idNumOfRates", numRatings);
+        gotoUserIntent.putExtra("idAvg", avgRating);
+
+
         //goto user profile
         gotoUserIntent.setClass(this, OtherUserProfile.class);
         startActivity(gotoUserIntent);

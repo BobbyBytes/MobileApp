@@ -21,6 +21,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -28,6 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Random;
 
 public class OtherUserProfile extends AppCompatActivity {
@@ -44,12 +48,14 @@ public class OtherUserProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Connect to firebase
+
         // Initialize FireBase Authentication instance
         mAuth = FirebaseAuth.getInstance();
         //Get the current FireBase User
         User = mAuth.getCurrentUser();
         Log.d("GETUSER TAG",User.getEmail());
-        Intent caller = getIntent();
+        final Intent caller = getIntent();
         String eMailAddr = caller.getStringExtra("idEmail");
         mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference userProfilePicRef = mStorageRef.child(eMailAddr + ".jpg");
@@ -94,13 +100,21 @@ public class OtherUserProfile extends AppCompatActivity {
         final String DisplayName = caller.getStringExtra("idDisplayName");
         TextView FirstNameTextView = findViewById(R.id.textViewFirstName);
         FirstNameTextView.setText(DisplayName);
+
         String genre = caller.getStringExtra("idGenre");
         TextView LastNameTextView = findViewById(R.id.textViewLastName);
         LastNameTextView.setText(genre);
+
         String bio = caller.getStringExtra("idBio");
         TextView bioTextview = findViewById(R.id.bioTextView);
         LastNameTextView.setText(bio);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        Double avgRating = caller.getDoubleExtra("idAvg", 0.0);
+        TextView avgRatingVal = findViewById(R.id.avgRatingVal);
+        avgRatingVal.setText(String.valueOf(avgRating));
+
+
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,48 +123,41 @@ public class OtherUserProfile extends AppCompatActivity {
         });
         FirebaseFirestore db;
 
-        float sum = 0;
+        RatingBar ratingBar = findViewById(R.id.ratingBar);
 
-        for(int i = 0; i < 15; i++)
-        {
-            sum += generateRatingVal();
-        }
-        sum /= 15;
-        setRateVal();
-        setAvgRating(sum);
+        //When the rating bar is clicked do all this stuff
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                double ratingSum = caller.getDoubleExtra("idSum", 0.0);
+                int numRatings = caller.getIntExtra("idNumOfRates", 1);
+                String emailAddr = caller.getStringExtra("idEmail");
+                setAvg(rating, ratingSum, numRatings, emailAddr);
+            }
+        });
 
     }
     //End OnCreate
 
-    private double generateRatingVal()
+    //Sets the average rating and updates the value in the DB
+    public void setAvg(float rating, double ratingSum, int numVotes, String emailAddr)
     {
-        //generates a random float between 0 and 5 to display as a rating
-        float minRating = (float)0.0;
-        float maxRating = (float)5.0;
-        Random rand = new Random();
-        float randNum = minRating + rand.nextFloat() * (maxRating - minRating);
-        return randNum;
-    }
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final TextView avgRatingVal = findViewById(R.id.avgRatingVal);
 
-    private void setRateVal()
-    {
-        float minRating = (float)0.0;
+        numVotes++;
+        ratingSum += rating;
+        double avg = ratingSum / numVotes;
 
-        float maxRating = (float)5.0;
-        Random rand = new Random();
-        float randNum = minRating + rand.nextFloat() * (maxRating - minRating);
-        RatingBar ratingBar = findViewById(R.id.ratingBar);
-        ratingBar.setRating(randNum);
-    }
+        avgRatingVal.setText(String.valueOf(avg));
 
-    private void setAvgRating(float sum)
-    {
-        RatingBar ratingBar = findViewById(R.id.ratingBar);
-        TextView avgRating = findViewById(R.id.avgRating);
+        DocumentReference sum = db.collection("users").document(emailAddr);
+        DocumentReference voteCount = db.collection("users").document(emailAddr);
+        DocumentReference avgRating = db.collection("users").document(emailAddr);
 
-        //float num = ratingBar.getRating();
-
-        avgRating.setText(String.format("%.2f", sum));
+        sum.update("sum", ratingSum);
+        voteCount.update("numRatings", numVotes);
+        avgRating.update("avgRating", avg);
     }
 
     //After choosing a picture
