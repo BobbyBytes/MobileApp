@@ -293,6 +293,7 @@ public class CreateArtistProfile extends AppCompatActivity {
         mUserArtist.setIsArtist(true);
         mUserArtist.setLocationString(get_addr_String_wrapper());
         db.collection("users").document(eMailAddress).set(mUserArtist);
+        goToMainContentActivity(mUserArtist);
 
     }
 

@@ -263,16 +263,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 double latitude = ud.getLatitude();
                                 // Location location = ud.getLocation();
                                 latLng = new LatLng(latitude, longitude);
-                                mkr = mMap.addMarker(new MarkerOptions().position(latLng).title(name));
-                                if (mkr != null)
-                                {
-                                    if(longitude != 0 && latitude != 0)
-                                    markers.add(mkr);
-                                }
-                            }
 
-                        } else {
+                                    if(longitude != 0.0 && latitude != 0.0) {
+                                        mkr = mMap.addMarker(new MarkerOptions().position(latLng).title(name));
+                                        markers.add(mkr);
+                                    }
+
+
+                            }
                             setCameraBounds();
+                        } else {
+
                             Log.d("TAG", "Error getting map documents: ", task.getException());
                         }
                     }
