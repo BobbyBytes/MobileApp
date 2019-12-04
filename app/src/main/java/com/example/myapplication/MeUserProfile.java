@@ -24,6 +24,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
@@ -43,7 +46,9 @@ public class MeUserProfile extends AppCompatActivity {
     private Uri mImageUri;
     private StorageReference mStorageRef;
     ImageView mImage;
-
+    TextView FirstNameTextView;
+    TextView LastNameTextView;
+    TextView BioTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +96,9 @@ public class MeUserProfile extends AppCompatActivity {
 
         //Set content of this activity
         setContentView(R.layout.activity_me_user_profile);
+        FirstNameTextView = findViewById(R.id.me_profile_textViewFirstName);
+        LastNameTextView = findViewById(R.id.me_profile_textViewLastName);
+        BioTextView = findViewById(R.id.me_bioTextView);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -102,7 +110,6 @@ public class MeUserProfile extends AppCompatActivity {
 ////            }
 ////        });*/
 
-
         Intent caller = getIntent();
         boolean isArtist = caller.getBooleanExtra("IDisArtist", true);
         String dataBaseCollectionPath;
@@ -111,32 +118,26 @@ public class MeUserProfile extends AppCompatActivity {
         }
         else dataBaseCollectionPath = "venues";
 
-//        //Get the entire collection called "users" from firebase.
-//        db.collection(dataBaseCollectionPath).
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d("TAG", document.getId() + " => " + document.getData());
-//                                UserData userDataFromDB = document.toObject(UserData.class);
-//
-//                                mUserData.add(userDataFromDB);
-//                            }
-//                            getImagesForProfilesFromList(mUserData);
-//                            adapter.notifyDataSetChanged();
-//                        } else {
-//                            Log.d("TAG", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
-//    }
-//        TextView FirstNameTextView = findViewById(R.id.me_profile_textViewFirstName);
-//        FirstNameTextView.setText(firstName);
-//
-//        TextView LastNameTextView = findViewById(R.id.me_profile_textViewLastName);
-//        LastNameTextView.setText(lastName);
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection(dataBaseCollectionPath).document(User.getEmail());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null) {
+                        UserData ud = task.getResult().toObject(UserData.class);
+                        PopulateData(ud);
+                    } else {
+                        Log.d("Me USer Class", "No such document");
+                    }
+                } else {
+                    Log.d("me user class", "get failed with ", task.getException());
+                }
+            }
+        });
+
+
+
 
         //Set that floating action button.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -154,6 +155,20 @@ public class MeUserProfile extends AppCompatActivity {
     }
     //End OnCreate
 
+    private void PopulateData(UserData ud){
+        String str = ud.getDisplayName();
+        if (str != null){
+            FirstNameTextView.setText(str);
+        }
+        str = ud.getGenre();
+        if(str != null){
+            LastNameTextView.setText(str);
+        }
+        str = ud.getbio();
+        if (str != null){
+            BioTextView.setText(str);
+        }
+    }
     //After choosing a picture from the file chooser.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
