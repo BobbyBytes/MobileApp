@@ -42,9 +42,9 @@ public class Chat_Room extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_room);
-        btn_send_msg = (Button) findViewById(R.id.btn_send);
-        input_msg = (EditText) findViewById(R.id.msg_input);
-        chat_conversation = (TextView)findViewById(R.id.textView);
+        btn_send_msg = findViewById(R.id.btn_send);
+        input_msg = findViewById(R.id.msg_input);
+        chat_conversation = findViewById(R.id.textView);
 
         //Get extras from previous activities
         user_name = getIntent().getExtras().get("user_name").toString();

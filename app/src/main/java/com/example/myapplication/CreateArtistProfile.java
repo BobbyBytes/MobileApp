@@ -294,7 +294,6 @@ public class CreateArtistProfile extends AppCompatActivity {
         mUserArtist.setLocationString(get_addr_String_wrapper());
         db.collection("users").document(eMailAddress).set(mUserArtist);
 
-        goToMainContentActivity(mUserArtist);
     }
 
     private void goToMainContentActivity(UserData user){

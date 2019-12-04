@@ -226,7 +226,10 @@ public class MainContent extends AppCompatActivity {
     }
 
 
+
     private void initializePage( String dataBaseCollectionPath){
+
+
         //Get the entire collection called "users" from firebase.
         db.collection(dataBaseCollectionPath)
                 .get()
