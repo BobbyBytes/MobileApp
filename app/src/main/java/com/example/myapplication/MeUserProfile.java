@@ -16,12 +16,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -83,6 +87,8 @@ public class MeUserProfile extends AppCompatActivity {
             }
         });
 
+
+
         //Set content of this activity
         setContentView(R.layout.activity_me_user_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -96,15 +102,41 @@ public class MeUserProfile extends AppCompatActivity {
 ////            }
 ////        });*/
 
-        
-        //Grab the user information from the calling intent.
+
         Intent caller = getIntent();
-        String firstName = caller.getStringExtra("idFirstName");
-        TextView FirstNameTextView = findViewById(R.id.me_profile_textViewFirstName);
-        FirstNameTextView.setText(firstName);
-        String lastName = caller.getStringExtra("idLastName");
-        TextView LastNameTextView = findViewById(R.id.me_profile_textViewLastName);
-        LastNameTextView.setText(lastName);
+        boolean isArtist = caller.getBooleanExtra("IDisArtist", true);
+        String dataBaseCollectionPath;
+        if (isArtist){
+            dataBaseCollectionPath = "users";
+        }
+        else dataBaseCollectionPath = "venues";
+
+//        //Get the entire collection called "users" from firebase.
+//        db.collection(dataBaseCollectionPath).
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d("TAG", document.getId() + " => " + document.getData());
+//                                UserData userDataFromDB = document.toObject(UserData.class);
+//
+//                                mUserData.add(userDataFromDB);
+//                            }
+//                            getImagesForProfilesFromList(mUserData);
+//                            adapter.notifyDataSetChanged();
+//                        } else {
+//                            Log.d("TAG", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+//    }
+//        TextView FirstNameTextView = findViewById(R.id.me_profile_textViewFirstName);
+//        FirstNameTextView.setText(firstName);
+//
+//        TextView LastNameTextView = findViewById(R.id.me_profile_textViewLastName);
+//        LastNameTextView.setText(lastName);
 
         //Set that floating action button.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

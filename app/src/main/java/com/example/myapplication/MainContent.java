@@ -135,6 +135,7 @@ public class MainContent extends AppCompatActivity {
 
     public void viewMyProfile(View view) {
         Intent gotoMyProfile = new Intent();
+        gotoMyProfile.putExtra("IDisArtist", isArtist);
         gotoMyProfile.setClass(this, MeUserProfile.class);
         startActivity(gotoMyProfile);
     }

@@ -75,7 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getLocationPermission();
         markers = new ArrayList<>();
         Intent caller = getIntent();
-        isArtist = caller.getBooleanExtra("isIsArtist", false);
+        isArtist = caller.getBooleanExtra("idIsArtist", false);
         if (isArtist) {
             dataBaseCollectionPath = "venues";
         } else {
@@ -270,9 +270,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     markers.add(mkr);
                                 }
                             }
-                            setCameraBounds();
 
                         } else {
+                            setCameraBounds();
                             Log.d("TAG", "Error getting map documents: ", task.getException());
                         }
                     }
@@ -304,9 +304,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void setCameraBounds(){
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        if (markers.isEmpty()) return;
         for (Marker marker : markers) {
             builder.include(marker.getPosition());
         }
+
         LatLngBounds bounds = builder.build();
 
         int padding = 10; // offset from edges of the map in pixels
